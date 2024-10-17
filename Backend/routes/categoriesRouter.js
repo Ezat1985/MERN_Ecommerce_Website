@@ -7,7 +7,7 @@ const categoriesRouter = Router();
 categoriesRouter
   .route("/")
   .get(categoryController.getAllCategories)
-  .post(categoryController.CreateCategory)
+
   .post(upload.array("images", 5), categoryController.CreateCategory);
 categoriesRouter
   .route("/:id")

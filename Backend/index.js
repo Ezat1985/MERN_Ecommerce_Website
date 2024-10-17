@@ -3,6 +3,7 @@ import "./db/server.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import cors from "cors";
 import categoriesRouter from "./routes/categoriesRouter.js";
+import productsRouter from "./routes/productsRouter.js";
 
 const app = express();
 const PORT = 3000;
@@ -12,6 +13,7 @@ app.use(express.json());
 
 // ROUTES
 app.use("/category", categoriesRouter);
+app.use("/products", productsRouter);
 
 app.use(errorHandler);
 

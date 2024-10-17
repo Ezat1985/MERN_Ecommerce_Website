@@ -24,7 +24,13 @@ export const getSingleCategory = asyncHandler(async (req, res, next) => {
 // Update Category
 export const udpateCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.body;
-  const updatedCategory = await Category.findByIdAndUpdate(id, { new: true });
+  const { name, color } = req.body;
+  const imageUrls = req.files.map((file) => file.path);
+  const updatedCategory = await Category.findByIdAndUpdate(
+    id,
+    { name, images: imageUrls, color },
+    { new: true }
+  );
   if (!updatedCategory)
     throw new ErrorResponse(`Category with id: ${id} does not exist`, 404);
 
@@ -42,24 +48,13 @@ export const deleteCategory = asyncHandler(async (req, res, next) => {
 });
 // Add new Category
 export const CreateCategory = asyncHandler(async (req, res, next) => {
-  //   const limit = pLimit(2);
-  //   const imagesToUpload = req.body.images.map((image) => {
-  //     return limit(async () => {
-  //       const result = await cloudinary.uploader.upload(image);
-  //       return result;
-  //     });
-  //   });
-  // });
-  // const uploadStatus = await Promise.all(imagesToUpload);
-  // const imgurl = uploadStatus.map((item) => {
-  //   return item.secure_url;
   if (!req.files || req.files.length === 0) {
     throw new ErrorResponse("No file uploaded", 400);
   }
-  console.log(req.file);
+
   const { name, color } = req.body;
-  const images = req.file.path;
   const imageUrls = req.files.map((file) => file.path);
+
   if (!name || !color) {
     throw new ErrorResponse("all fields are required", 418);
   }
@@ -68,5 +63,6 @@ export const CreateCategory = asyncHandler(async (req, res, next) => {
     images: imageUrls,
     color,
   });
+
   res.status(201).json(newCategory);
 });
