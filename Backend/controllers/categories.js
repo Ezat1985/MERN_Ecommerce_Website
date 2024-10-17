@@ -23,14 +23,15 @@ export const getSingleCategory = asyncHandler(async (req, res, next) => {
 
 // Update Category
 export const udpateCategory = asyncHandler(async (req, res, next) => {
-  const { id } = req.body;
-  const { name, color } = req.body;
-  const imageUrls = req.files.map((file) => file.path);
-  const updatedCategory = await Category.findByIdAndUpdate(
-    id,
-    { name, images: imageUrls, color },
-    { new: true }
-  );
+  // const { id } = req.params;
+  // const body = req;
+  const {
+    body,
+    params: { id },
+  } = req;
+  const updatedCategory = await Category.findByIdAndUpdate(id, body, {
+    new: true,
+  });
   if (!updatedCategory)
     throw new ErrorResponse(`Category with id: ${id} does not exist`, 404);
 
@@ -39,7 +40,7 @@ export const udpateCategory = asyncHandler(async (req, res, next) => {
 // Delete Category
 
 export const deleteCategory = asyncHandler(async (req, res, next) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const deletedcategory = await Category.findByIdAndDelete(id);
   if (!deletedcategory)
     throw new ErrorResponse(`Category with id: ${id} does not exist`, 404);
