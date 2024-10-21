@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { useAuth } from "../context/AuthProvider.jsx";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
