@@ -11,7 +11,7 @@ function RegisterForm() {
     email: "",
     password: "",
   });
-
+  console.log(import.meta.env.VITE_API_URL);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -26,7 +26,7 @@ function RegisterForm() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/register`,
+        `http://localhost:3001/auth/register`,
         formData,
         { withCredentials: true }
       );
