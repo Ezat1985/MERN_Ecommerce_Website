@@ -8,7 +8,7 @@ import productsRouter from "./routes/productsRouter.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());

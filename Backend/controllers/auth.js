@@ -16,7 +16,7 @@ export const signUp = asyncHandler(async (req, res, next) => {
             - Return the token [X]
 
 */
-  const { name, phone, email, password } = req.body;
+  const { firstName, lastName, username, email, password } = req.body;
 
   const existingUser = await User.findOne({ email });
   if (existingUser)
@@ -24,8 +24,9 @@ export const signUp = asyncHandler(async (req, res, next) => {
 
   const hash = await bcrypt.hash(password, 10);
   const newUser = await User.create({
-    name,
-    phone,
+    firstName,
+    lastName,
+    username,
     email,
     password: hash,
   });
