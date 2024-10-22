@@ -1,4 +1,4 @@
-import Product from "../models/productsSchema.js";
+import Product from "../models/productSchema.js";
 import asyncHandler from "../utlis/asyncHandler.js";
 import ErrorResponse from "../utlis/ErrorResponse.js";
 

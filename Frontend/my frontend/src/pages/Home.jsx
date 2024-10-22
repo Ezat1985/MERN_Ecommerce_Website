@@ -1,7 +1,11 @@
+import BannerProduct from "../components/BannerProduct.jsx";
+import CategoryList from "../components/CategoryList.jsx";
+
 const Home = () => {
   return (
     <div>
-      <h1>E-commerce</h1>
+      <CategoryList />
+      <BannerProduct />
     </div>
   );
 };

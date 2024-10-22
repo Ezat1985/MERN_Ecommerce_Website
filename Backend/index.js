@@ -3,10 +3,11 @@ import "./db/server.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import cors from "cors";
 import authRouter from "./routes/authRouter.js";
-import categoriesRouter from "./routes/categoriesRouter.js";
+// import categoriesRouter from "./routes/categoriesRouter.js";
 import productsRouter from "./routes/productsRouter.js";
 import ordersRouter from "./routes/orderRouter.js";
 import cookieParser from "cookie-parser";
+import categoryRouter from "./routes/categoriesRouter.js";
 
 const app = express();
 const PORT = 3001;
@@ -17,9 +18,10 @@ app.use(cookieParser());
 
 // ROUTES
 app.use("/auth", authRouter);
-app.use("/category", categoriesRouter);
+
 app.use("/products", productsRouter);
 app.use("/orders", ordersRouter);
+app.use("/get-categoryProduct", categoryRouter);
 
 app.use(errorHandler);
 

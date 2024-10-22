@@ -1,18 +1,8 @@
 import { Router } from "express";
-import * as categoryController from "../controllers/categories.js";
-import upload from "../services/upload.js";
+import { getCategoryProduct } from "../controllers/getCategoryProductOne.js";
 
-const categoriesRouter = Router();
+const categoryRouter = Router();
 
-categoriesRouter
-  .route("/")
-  .get(categoryController.getAllCategories)
+categoryRouter.route("/").get(getCategoryProduct);
 
-  .post(upload.array("images", 5), categoryController.CreateCategory);
-categoriesRouter
-  .route("/:id")
-  .get(categoryController.getSingleCategory)
-  .delete(categoryController.deleteCategory)
-  .put(categoryController.udpateCategory);
-
-export default categoriesRouter;
+export default categoryRouter;
