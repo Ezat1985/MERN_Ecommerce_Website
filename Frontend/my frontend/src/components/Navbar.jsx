@@ -4,6 +4,7 @@ import logo from "../images/logo.png";
 import { GiShoppingCart } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
+import axios from "axios";
 
 const Navbar = () => {
   const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useAuth();
@@ -82,13 +83,26 @@ const Navbar = () => {
                 <p className="text-sm">0</p>
               </div>
             </div>
+            {/* login & Logout */}
             <div>
-              <Link
-                to="/login"
-                className="px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700"
-              >
-                Login
-              </Link>
+              {isLoggedIn ? (
+                <div className="flex items-center space-x-4">
+                  <button
+                    className="px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700"
+                    onClick={handleLogout}
+                  >
+                    LOGOUT
+                  </button>
+                  <p className="text-sm">Welcome, {userData.firstName}</p>
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className="px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700"
+                >
+                  Login
+                </Link>
+              )}
             </div>
           </div>
         </div>

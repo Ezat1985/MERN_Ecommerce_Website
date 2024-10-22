@@ -2,15 +2,15 @@ import Product from "../models/productsSchema.js";
 import asyncHandler from "../utlis/asyncHandler.js";
 import ErrorResponse from "../utlis/ErrorResponse.js";
 
-const products = await Product.find({});
-let id;
-if (products.length > 0) {
-  const last_product_array = products.slice(-1);
-  const last_product = last_product_array[0];
-  id = last_product.id + 1;
-} else {
-  id = 1;
-}
+// const products = await Product.find({});
+// let id;
+// if (products.length > 0) {
+//   const last_product_array = products.slice(-1);
+//   const last_product = last_product_array[0];
+//   id = last_product.id + 1;
+// } else {
+//   id = 1;
+// }
 // get All Products
 // @desc    Fetch all products
 // @route   GET /api/products
@@ -38,12 +38,11 @@ export const getSingleProduct = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 export const udpateProduct = asyncHandler(async (req, res, next) => {
-  // const { id } = req.params;
-  // const body = req;
   const {
     body,
     params: { id },
   } = req;
+  console.log(id);
   const updatedProduct = await Product.findByIdAndUpdate(id, body, {
     new: true,
   });
@@ -77,7 +76,6 @@ export const CreateProduct = asyncHandler(async (req, res, next) => {
     throw new ErrorResponse("all fields are required", 418);
   }
   const newProduct = await Product.create({
-    id: id,
     name,
     images: imageUrls,
     description,
@@ -96,7 +94,7 @@ export const CreateProduct = asyncHandler(async (req, res, next) => {
 // @access  Private/Admin
 
 export const deleteProduct = asyncHandler(async (req, res, next) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const deletedProduct = await Product.findByIdAndDelete(id);
   if (!deletedProduct)
     throw new ErrorResponse(`Product with id: ${id} does not exist`, 404);

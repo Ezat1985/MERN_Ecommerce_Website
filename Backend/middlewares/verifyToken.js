@@ -25,8 +25,15 @@ export const verifyToken = asyncHandler(async (req, res, next) => {
   next();
 });
 
-export const admin = (req, res, next) => {
-  if (req.user && req.user.isAdmin) {
+export const admin = async (req, res, next) => {
+  // Hole id aus req
+  const uid = req.uid;
+  // Frage mit der Id in der Datenbank nach
+  const user = await User.findById(uid).select("admin");
+  console.log(user);
+  // Wenn user und isAdmin, dann next()
+  if (user.admin) {
+    // if (req.user && req.user.isAdmin) {
     next();
   } else {
     res.status(401);
