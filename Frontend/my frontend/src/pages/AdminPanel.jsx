@@ -1,7 +1,7 @@
 import AddProduct from "../components/AddProduct";
 import AdminSidebar from "../components/AdminSidebar";
 // import { useAuth } from "../context/AuthProvider";
-import { Routes, Route } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 // const { userData } = useAuth();
 {
@@ -9,11 +9,9 @@ import { Routes, Route } from "react-router-dom";
 }
 const AdminPanel = () => {
   return (
-    <div>
+    <div className="flex">
       <AdminSidebar />
-      <Routes>
-        <Route path="/addproduct" element={<AddProduct />} />
-      </Routes>
+      <Outlet />
     </div>
   );
 };

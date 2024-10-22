@@ -3,8 +3,26 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import logo from "../images/logo.png";
 import { GiShoppingCart } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthProvider";
 
 const Navbar = () => {
+  const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useAuth();
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/logout`,
+        {},
+        { withCredentials: true }
+      );
+      setIsLoggedIn(false);
+      setUserData({});
+      toast(`Goodbye ${userData.firstName}`, {
+        icon: "👏",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       <div className="Header h-16 shadow-md">
@@ -26,6 +44,7 @@ const Navbar = () => {
             </div>
           </div>
           {/* user icon and cart code */}
+
           <div className=" flex items-center gap-7">
             <div className="dropdown dropdown-end">
               <div

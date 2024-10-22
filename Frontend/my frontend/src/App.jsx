@@ -12,6 +12,9 @@ import LoginForm from "./components/LoginForm.jsx";
 import ForgotPassowrd from "./components/ForgotPassword.jsx";
 import RegisterForm from "./components/RegisterForm.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
+import AdminSidebar from "./components/AdminSidebar.jsx";
+import AddProduct from "./components/AddProduct.jsx";
+import ProductList from "./components/ProductList.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -21,6 +24,11 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/admin-panel" element={<AdminPanel />} />
+        <Route path="/admin-panel" element={<AdminPanel />}>
+          <Route path="add-product" element={<AddProduct />} />
+          <Route path="AdminSidebar" element={<AdminSidebar />} />
+          <Route path="product-list" element={<ProductList />} />
+        </Route>
         <Route path="/forgot-password" element={<ForgotPassowrd />} />
       </Route>
     )

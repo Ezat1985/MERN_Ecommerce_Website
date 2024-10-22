@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import asyncHandler from "../utlis/asyncHandler.js";
 import ErrorResponse from "../utlis/ErrorResponse.js";
+import User from "../models/userSchema.js";
 
 const verifyToken = asyncHandler(async (req, res, next) => {
   /*
@@ -24,4 +25,13 @@ const verifyToken = asyncHandler(async (req, res, next) => {
   next();
 });
 
-export default verifyToken;
+const admin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error("Not authorized as an admin");
+  }
+};
+
+export default { verifyToken, admin };

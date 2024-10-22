@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const productSchema = mongoose.Schema({
+  id: {
+    type: Number,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -20,31 +24,34 @@ const productSchema = mongoose.Schema({
     type: String,
     default: "",
   },
-  price: {
+  new_price: {
+    type: String,
+    default: 0,
+  },
+  old_price: {
     type: String,
     default: 0,
   },
   category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
+    type: String,
     required: true,
   },
-  countInStock: {
-    type: Number,
-    required: true,
+  avilable: {
+    type: Boolean,
+    default: true,
   },
   reting: {
     type: Number,
     default: 0,
   },
-  numReviews: {
-    type: Number,
-    default: 0,
-  },
-  isFeatured: {
-    type: Boolean,
-    default: false,
-  },
+  // numReviews: {
+  //   type: Number,
+  //   default: 0,
+  // },
+  // isFeatured: {
+  //   type: Boolean,
+  //   default: false,
+  // },
   dateCreated: {
     type: Date,
     default: Date.now,

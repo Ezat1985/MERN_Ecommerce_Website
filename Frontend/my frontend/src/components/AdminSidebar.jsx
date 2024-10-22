@@ -6,6 +6,7 @@ import {
   BsPeopleFill,
   BsFillGearFill,
 } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const AdminSidebar = () => {
   return (
@@ -18,19 +19,19 @@ const AdminSidebar = () => {
 
       <ul className="sidebar-list">
         <li className="sidebar-list-item">
-          <a href="">
+          <Link>
             <BsGrid1X2Fill className="icon" /> Dashboard
-          </a>
+          </Link>
         </li>
         <li className="sidebar-list-item">
-          <a href="">
+          <Link to="product-list">
             <BsFillArchiveFill className="icon" /> Products List
-          </a>
+          </Link>
         </li>
         <li className="sidebar-list-item">
-          <a href="">
+          <Link to="add-product">
             <BsFillArchiveFill className="icon" /> Add Product
-          </a>
+          </Link>
         </li>
         <li className="sidebar-list-item">
           <a href="">
