@@ -3,7 +3,7 @@ import asyncHandler from "../utlis/asyncHandler.js";
 import ErrorResponse from "../utlis/ErrorResponse.js";
 import User from "../models/userSchema.js";
 
-const verifyToken = asyncHandler(async (req, res, next) => {
+export const verifyToken = asyncHandler(async (req, res, next) => {
   /*
     Check if token is present in request [X]
         - If not, return an error [X]
@@ -25,7 +25,7 @@ const verifyToken = asyncHandler(async (req, res, next) => {
   next();
 });
 
-const admin = (req, res, next) => {
+export const admin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next();
   } else {
@@ -33,5 +33,3 @@ const admin = (req, res, next) => {
     throw new Error("Not authorized as an admin");
   }
 };
-
-export default { verifyToken, admin };

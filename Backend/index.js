@@ -5,6 +5,7 @@ import cors from "cors";
 import authRouter from "./routes/authRouter.js";
 import categoriesRouter from "./routes/categoriesRouter.js";
 import productsRouter from "./routes/productsRouter.js";
+import ordersRouter from "./routes/orderRouter.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use("/auth", authRouter);
 app.use("/category", categoriesRouter);
 app.use("/products", productsRouter);
+app.use("/orders", ordersRouter);
 
 app.use(errorHandler);
 

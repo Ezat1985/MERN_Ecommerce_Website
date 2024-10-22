@@ -2,7 +2,6 @@ import Product from "../models/productsSchema.js";
 import asyncHandler from "../utlis/asyncHandler.js";
 import ErrorResponse from "../utlis/ErrorResponse.js";
 
-// get All Products
 const products = await Product.find({});
 let id;
 if (products.length > 0) {
@@ -12,23 +11,32 @@ if (products.length > 0) {
 } else {
   id = 1;
 }
-
+// get All Products
+// @desc    Fetch all products
+// @route   GET /api/products
+// @access  Public
 export const getAllProducts = asyncHandler(async (req, res, next) => {
   const products = await Product.find();
   if (!products.length) throw new ErrorResponse("No product found", 404);
   res.json(products);
 });
 // get Product by id
+// @desc    Fetch single product
+// @route   GET /api/products/:id
+// @access  Public
 
 export const getSingleProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
-  const product = await Product.findById(id);
+  const product = await Product.findById(id); // Check if product exists
   if (!product)
     throw new ErrorResponse(`Product with id: ${id} does not exist`, 404);
   res.json(product);
 });
 // Update Product
+// @desc    Update a product
+// @route   PUT /api/products/:id
+// @access  Private/Admin
 export const udpateProduct = asyncHandler(async (req, res, next) => {
   // const { id } = req.params;
   // const body = req;
@@ -46,6 +54,9 @@ export const udpateProduct = asyncHandler(async (req, res, next) => {
 });
 
 // Add new Product
+// @desc    Create a product
+// @route   POST /api/products
+// @access  Private/Admin
 
 export const CreateProduct = asyncHandler(async (req, res, next) => {
   if (!req.files || req.files.length === 0) {
@@ -80,6 +91,9 @@ export const CreateProduct = asyncHandler(async (req, res, next) => {
   console.log(newProduct);
 });
 // Delete Product
+// @desc    Delete single product
+// @route   DELETE /api/products/:id
+// @access  Private/Admin
 
 export const deleteProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.body;

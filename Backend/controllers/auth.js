@@ -5,6 +5,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 // REGISTER
+// @desc    Register a new user
+// @route   POST /api/users
+// @access  Public
 export const signUp = asyncHandler(async (req, res, next) => {
   /* 
     Check if user exist (email) [X]
