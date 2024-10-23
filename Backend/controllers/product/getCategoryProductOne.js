@@ -1,4 +1,4 @@
-import productSchema from "../models/productSchema.js";
+import productSchema from "../../models/productSchema.js";
 
 export const getCategoryProduct = async (req, res) => {
   try {

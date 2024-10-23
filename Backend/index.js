@@ -22,6 +22,7 @@ app.use("/auth", authRouter);
 app.use("/products", productsRouter);
 app.use("/orders", ordersRouter);
 app.use("/get-categoryProduct", categoryRouter);
+app.use("/category-product", categoryRouter);
 
 app.use(errorHandler);
 

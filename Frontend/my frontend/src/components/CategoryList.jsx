@@ -42,7 +42,7 @@ const CategoryList = () => {
                     <img
                       src={product?.images[0]}
                       alt={product?.category}
-                      className="h-full object-scale-down mix-blend-multiply hover:scale-125 transition-all"
+                      className="h-full w-full object-scale-down mix-blend-multiply hover:scale-125 transition-all"
                     />
                   </div>
                   <p className="text-center text-sm md:text-base capitalize">

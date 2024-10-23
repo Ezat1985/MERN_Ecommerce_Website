@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as orderController from "../controllers/order.js";
+import * as orderController from "../controllers/order/order.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { admin } from "../middlewares/verifyToken.js";
 

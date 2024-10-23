@@ -1,6 +1,6 @@
-import User from "../models/userSchema.js";
-import asyncHandler from "../utlis/asyncHandler.js";
-import ErrorResponse from "../utlis/ErrorResponse.js";
+import User from "../../models/userSchema.js";
+import asyncHandler from "../../utlis/asyncHandler.js";
+import ErrorResponse from "../../utlis/ErrorResponse.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 

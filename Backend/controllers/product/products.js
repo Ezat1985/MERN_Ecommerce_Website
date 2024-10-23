@@ -1,6 +1,6 @@
-import Product from "../models/productSchema.js";
-import asyncHandler from "../utlis/asyncHandler.js";
-import ErrorResponse from "../utlis/ErrorResponse.js";
+import Product from "../../models/productSchema.js";
+import asyncHandler from "../../utlis/asyncHandler.js";
+import ErrorResponse from "../../utlis/ErrorResponse.js";
 
 // const products = await Product.find({});
 // let id;

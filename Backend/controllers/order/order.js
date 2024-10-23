@@ -1,6 +1,6 @@
-import Order from "../models/orderSchema.js";
-import asyncHandler from "../utlis/asyncHandler.js";
-import ErrorResponse from "../utlis/ErrorResponse.js";
+import Order from "../../models/orderSchema.js";
+import asyncHandler from "../../utlis/asyncHandler.js";
+import ErrorResponse from "../../utlis/ErrorResponse.js";
 
 // get All Orders
 // @desc    Get all orders

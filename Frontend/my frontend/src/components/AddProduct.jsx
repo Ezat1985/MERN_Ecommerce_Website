@@ -64,8 +64,8 @@ const AddProduct = () => {
           <input
             className="border border-gray-300 h-10 rounded-lg my-2 mx-4"
             type="text"
-            name="ProductName"
-            id="ProductName"
+            name="name"
+            id="name"
             placeholder="Type here"
             value={productDetails.name}
             onChange={handleChange}

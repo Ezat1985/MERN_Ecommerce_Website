@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as productController from "../controllers/products.js";
+import * as productController from "../controllers/product/products.js";
 import upload from "../services/upload.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { admin } from "../middlewares/verifyToken.js";
