@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 const AddProduct = () => {
   const [productDetails, setProductDetails] = useState({
@@ -16,7 +17,7 @@ const AddProduct = () => {
   };
 
   const handleFileChange = (e) => {
-    setProductDetails({ ...productDetails, image: e.target.files[0] });
+    setProductDetails({ ...productDetails, images: e.target.files[0] });
   };
   const AddProduct = async (e) => {
     e.preventDefault();
@@ -39,18 +40,21 @@ const AddProduct = () => {
       );
       console.log("Product uploaded successfully:", response.data);
 
-      setProductDetails({
-        name: "",
-        description: "",
-        old_price: "",
-        new_price: "",
-        brand: "",
-        category: "",
-        image: null,
-      });
+      setProductDetails(
+        {
+          name: "",
+          description: "",
+          old_price: "",
+          new_price: "",
+          brand: "",
+          category: "",
+          images: "",
+        },
+        { withCredentials: true }
+      );
       alert("Product added");
     } catch (error) {
-      console.error("Error uploading product:", error.message);
+      console.error("Error uploading product:", error);
     }
   };
   return (

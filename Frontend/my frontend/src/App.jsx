@@ -15,6 +15,7 @@ import AdminPanel from "./pages/AdminPanel.jsx";
 import AdminSidebar from "./components/AdminSidebar.jsx";
 import AddProduct from "./components/AddProduct.jsx";
 import ProductList from "./components/ProductList.jsx";
+import ProductDetails from "./pages/ProductDetails.jsx";
 
 function App() {
   const router = createBrowserRouter(
@@ -22,6 +23,7 @@ function App() {
       <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="product/:id" element={<ProductDetails />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/admin-panel" element={<AdminPanel />} />
         <Route path="/admin-panel" element={<AdminPanel />}>
