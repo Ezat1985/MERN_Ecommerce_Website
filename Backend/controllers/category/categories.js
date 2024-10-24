@@ -3,7 +3,6 @@ import Product from '../../models/productSchema.js';
 import asyncHandler from '../../utlis/asyncHandler.js';
 import ErrorResponse from '../../utlis/ErrorResponse.js';
 
-// Get all categories with products
 export const getAllCategories = asyncHandler(async (req, res, next) => {
   const categories = await Category.find();
 
@@ -11,13 +10,12 @@ export const getAllCategories = asyncHandler(async (req, res, next) => {
     throw new ErrorResponse('No categories found', 404);
   }
 
-  // For each category, find the products that belong to it
   const categoriesWithProducts = await Promise.all(
     categories.map(async (category) => {
       const products = await Product.find({ category: category.name });
       return {
-        ...category._doc, // Spread the category data
-        products, // Add the products for this category
+        ...category._doc,
+        products,
       };
     })
   );
