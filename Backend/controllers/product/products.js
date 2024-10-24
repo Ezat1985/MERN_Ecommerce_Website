@@ -1,6 +1,7 @@
-import Product from "../../models/productSchema.js";
-import asyncHandler from "../../utlis/asyncHandler.js";
-import ErrorResponse from "../../utlis/ErrorResponse.js";
+import Product from '../../models/productSchema.js';
+import Category from '../../models/categorySchema.js';
+import asyncHandler from '../../utlis/asyncHandler.js';
+import ErrorResponse from '../../utlis/ErrorResponse.js';
 
 // const products = await Product.find({});
 // let id;
@@ -17,7 +18,7 @@ import ErrorResponse from "../../utlis/ErrorResponse.js";
 // @access  Public
 export const getAllProducts = asyncHandler(async (req, res, next) => {
   const products = await Product.find();
-  if (!products.length) throw new ErrorResponse("No product found", 404);
+  if (!products.length) throw new ErrorResponse('No product found', 404);
   res.json(products);
 });
 // get Product by id
@@ -59,22 +60,39 @@ export const udpateProduct = asyncHandler(async (req, res, next) => {
 
 export const CreateProduct = asyncHandler(async (req, res, next) => {
   if (!req.files || req.files.length === 0) {
-    throw new ErrorResponse("No file uploaded", 400);
+    throw new ErrorResponse('No file uploaded', 400);
   }
-  // const { id } = req.params;
+
   const { name, description, brand, new_price, old_price, category } = req.body;
   const imageUrls = req.files.map((file) => file.path);
 
-  if (
-    !name ||
-    !description ||
-    !brand ||
-    !new_price ||
-    !old_price ||
-    !category
-  ) {
-    throw new ErrorResponse("all fields are required", 418);
+  if (!name || !description || !brand || !new_price || !old_price) {
+    throw new ErrorResponse(
+      'Name, description, brand, new_price, and old_price are required fields',
+      418
+    );
   }
+
+  const validCategories = [
+    'TV',
+    'Smartphone',
+    'Console',
+    'Laptop',
+    'Tablet',
+    'Wearables',
+    'Audio',
+    'Camera',
+    'Gaming',
+    'Accessories',
+    'NEW',
+  ];
+  const validCategory = validCategories.includes(category) ? category : 'NEW';
+
+  let existingCategory = await Category.findOne({ name: validCategory });
+  if (!existingCategory) {
+    existingCategory = await Category.create({ name: validCategory });
+  }
+
   const newProduct = await Product.create({
     name,
     images: imageUrls,
@@ -82,12 +100,12 @@ export const CreateProduct = asyncHandler(async (req, res, next) => {
     brand,
     new_price,
     old_price,
-    category,
+    category: existingCategory.name,
   });
 
   res.status(201).json(newProduct);
-  console.log(newProduct);
 });
+
 // Delete Product
 // @desc    Delete single product
 // @route   DELETE /api/products/:id
@@ -100,4 +118,15 @@ export const deleteProduct = asyncHandler(async (req, res, next) => {
     throw new ErrorResponse(`Product with id: ${id} does not exist`, 404);
 
   res.json({ success: `Product with ${id} was deleted` });
+});
+
+export const getProductsByCategory = asyncHandler(async (req, res, next) => {
+  const { category } = req.params;
+
+  const products = await Product.find({ category });
+  if (!products.length) {
+    throw new ErrorResponse(`No products found in category: ${category}`, 404);
+  }
+
+  res.status(200).json(products);
 });

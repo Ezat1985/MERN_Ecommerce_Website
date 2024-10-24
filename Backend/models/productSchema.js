@@ -1,6 +1,20 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const productSchema = mongoose.Schema({
+const predefinedCategories = [
+  'TV',
+  'Smartphone',
+  'Console',
+  'Laptop',
+  'Tablet',
+  'Wearables',
+  'Audio',
+  'Camera',
+  'Gaming',
+  'Accessories',
+  'NEW',
+];
+
+const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -15,10 +29,9 @@ const productSchema = mongoose.Schema({
       required: true,
     },
   ],
-
   brand: {
     type: String,
-    default: "",
+    default: '',
   },
   new_price: {
     type: String,
@@ -30,21 +43,22 @@ const productSchema = mongoose.Schema({
   },
   category: {
     type: String,
+    enum: predefinedCategories,
+    default: 'NEW',
     required: true,
   },
-  avilable: {
+  available: {
     type: Boolean,
     default: true,
   },
-  reting: {
+  rating: {
     type: Number,
     default: 0,
   },
-
   dateCreated: {
     type: Date,
     default: Date.now,
   },
 });
 
-export default mongoose.model("Product", productSchema);
+export default mongoose.model('Product', productSchema);

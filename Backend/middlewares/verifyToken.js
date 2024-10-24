@@ -1,42 +1,26 @@
-import jwt from "jsonwebtoken";
-import asyncHandler from "../utlis/asyncHandler.js";
-import ErrorResponse from "../utlis/ErrorResponse.js";
-import User from "../models/userSchema.js";
+import jwt from 'jsonwebtoken';
+import asyncHandler from '../utlis/asyncHandler.js';
+import ErrorResponse from '../utlis/ErrorResponse.js';
+import User from '../models/userSchema.js';
 
 export const verifyToken = asyncHandler(async (req, res, next) => {
-  /*
-    Check if token is present in request [X]
-        - If not, return an error [X]
-        - If present:
-            - verifyToken using jwt.verify [X]
-            - If invalid return an error [X]
-            - If valid
-                - create uid property in request [X]
-                - next();
-*/
-
-  // const token = req.headers['authorization'];
   const token = req.cookies.token;
 
-  if (!token) throw new ErrorResponse("Please login", 401);
+  if (!token) throw new ErrorResponse('Please login', 401);
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  req.uid = decoded.uid;
+
+  const user = await User.findById(decoded.uid).select('-password');
+  if (!user) throw new ErrorResponse('User not found', 404);
+
+  req.user = user;
   next();
 });
 
-export const admin = async (req, res, next) => {
-  // Hole id aus req
-  const uid = req.uid;
-  // Frage mit der Id in der Datenbank nach
-  const user = await User.findById(uid).select("admin");
-  console.log(user);
-  // Wenn user und isAdmin, dann next()
-  if (user.admin) {
-    // if (req.user && req.user.isAdmin) {
+export const admin = (req, res, next) => {
+  if (req.user && req.user.admin) {
     next();
   } else {
-    res.status(401);
-    throw new Error("Not authorized as an admin");
+    res.status(403).json({ message: 'Not authorized as an admin' });
   }
 };
