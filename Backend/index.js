@@ -1,28 +1,26 @@
-import express from "express";
-import "./db/server.js";
-import { errorHandler } from "./middlewares/errorHandler.js";
-import cors from "cors";
-import authRouter from "./routes/authRouter.js";
-// import categoriesRouter from "./routes/categoriesRouter.js";
-import productsRouter from "./routes/productsRouter.js";
-import ordersRouter from "./routes/orderRouter.js";
-import cookieParser from "cookie-parser";
-import categoryRouter from "./routes/categoriesRouter.js";
+import express from 'express';
+import './db/server.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import cors from 'cors';
+import authRouter from './routes/authRouter.js';
+import productsRouter from './routes/productsRouter.js';
+import ordersRouter from './routes/orderRouter.js';
+import cookieParser from 'cookie-parser';
+import categoryRouter from './routes/categoryRouter.js';
 
 const app = express();
 const PORT = 3001;
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
 // ROUTES
-app.use("/auth", authRouter);
+app.use('/auth', authRouter);
 
-app.use("/products", productsRouter);
-app.use("/orders", ordersRouter);
-app.use("/get-categoryProduct", categoryRouter);
-app.use("/category-product", categoryRouter);
+app.use('/products', productsRouter);
+app.use('/orders', ordersRouter);
+app.use('/categories', categoryRouter);
 
 app.use(errorHandler);
 
