@@ -12,7 +12,7 @@ export const getAllCategories = asyncHandler(async (req, res, next) => {
 
   const categoriesWithProducts = await Promise.all(
     categories.map(async (category) => {
-      const products = await Product.find({ category: category.name });
+      const products = await Product.find({ category: category._id });
       return {
         ...category._doc,
         products,

@@ -14,7 +14,7 @@ const CategoryPage = () => {
           `http://localhost:3001/products/category/${category}`
         );
 
-        setProducts(response.data); // Adjusted based on new API response format
+        setProducts(response.data);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching products by category:', error);

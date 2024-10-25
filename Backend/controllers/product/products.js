@@ -50,11 +50,14 @@ export const udpateProduct = asyncHandler(async (req, res, next) => {
 // @access  Private/Admin
 
 export const CreateProduct = asyncHandler(async (req, res, next) => {
-  if (!req.files || req.files.length === 0) {
-    throw new ErrorResponse('No file uploaded', 400);
-  }
-
-  const { name, description, brand, new_price, old_price, category } = req.body;
+  const {
+    name,
+    description,
+    brand,
+    new_price,
+    old_price,
+    category: categoryName,
+  } = req.body;
   const imageUrls = req.files.map((file) => file.path);
 
   if (
@@ -63,9 +66,19 @@ export const CreateProduct = asyncHandler(async (req, res, next) => {
     !brand ||
     !new_price ||
     !old_price ||
-    !category
+    !categoryName
   ) {
     throw new ErrorResponse('Please fill the required fields', 418);
+  }
+
+  let category = await Category.findOne({ name: categoryName });
+  if (!category) {
+    category = new Category({
+      name: categoryName,
+      description: 'NEW',
+      products: [],
+    });
+    await category.save();
   }
 
   const newProduct = await Product.create({
@@ -75,8 +88,11 @@ export const CreateProduct = asyncHandler(async (req, res, next) => {
     brand,
     new_price,
     old_price,
-    category,
+    category: category._id,
   });
+
+  category.products.push(newProduct._id);
+  await category.save();
 
   res.status(201).json(newProduct);
 });
