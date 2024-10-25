@@ -6,7 +6,7 @@ const predefinedCategories = [
   'Console',
   'Laptop',
   'Tablet',
-  'Wearables',
+  'Fashion',
   'Audio',
   'Camera',
   'Gaming',
