@@ -1,24 +1,15 @@
-import Product from '../../models/productSchema.js';
-import Category from '../../models/categorySchema.js';
-import asyncHandler from '../../utlis/asyncHandler.js';
-import ErrorResponse from '../../utlis/ErrorResponse.js';
+import Product from "../../models/productSchema.js";
+import Category from "../../models/categorySchema.js";
+import asyncHandler from "../../utlis/asyncHandler.js";
+import ErrorResponse from "../../utlis/ErrorResponse.js";
 
-// const products = await Product.find({});
-// let id;
-// if (products.length > 0) {
-//   const last_product_array = products.slice(-1);
-//   const last_product = last_product_array[0];
-//   id = last_product.id + 1;
-// } else {
-//   id = 1;
-// }
 // get All Products
 // @desc    Fetch all products
 // @route   GET /api/products
 // @access  Public
 export const getAllProducts = asyncHandler(async (req, res, next) => {
   const products = await Product.find();
-  if (!products.length) throw new ErrorResponse('No product found', 404);
+  if (!products.length) throw new ErrorResponse("No product found", 404);
   res.json(products);
 });
 // get Product by id
@@ -60,7 +51,7 @@ export const udpateProduct = asyncHandler(async (req, res, next) => {
 
 export const CreateProduct = asyncHandler(async (req, res, next) => {
   if (!req.files || req.files.length === 0) {
-    throw new ErrorResponse('No file uploaded', 400);
+    throw new ErrorResponse("No file uploaded", 400);
   }
 
   const { name, description, brand, new_price, old_price, category } = req.body;
@@ -68,25 +59,25 @@ export const CreateProduct = asyncHandler(async (req, res, next) => {
 
   if (!name || !description || !brand || !new_price || !old_price) {
     throw new ErrorResponse(
-      'Name, description, brand, new_price, and old_price are required fields',
+      "Name, description, brand, new_price, and old_price are required fields",
       418
     );
   }
 
   const validCategories = [
-    'TV',
-    'Smartphone',
-    'Console',
-    'Laptop',
-    'Tablet',
-    'Wearables',
-    'Audio',
-    'Camera',
-    'Gaming',
-    'Accessories',
-    'NEW',
+    "TV",
+    "Smartphone",
+    "Console",
+    "Laptop",
+    "Tablet",
+    "Wearables",
+    "Audio",
+    "Camera",
+    "Gaming",
+    "Accessories",
+    "NEW",
   ];
-  const validCategory = validCategories.includes(category) ? category : 'NEW';
+  const validCategory = validCategories.includes(category) ? category : "NEW";
 
   let existingCategory = await Category.findOne({ name: validCategory });
   if (!existingCategory) {
