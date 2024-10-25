@@ -1,10 +1,12 @@
 import { useCallback, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { FaStarHalf } from "react-icons/fa";
 import displayINRCurrency from "../helpers/displayCurrency";
+import { addToCart } from "../utils/cart";
 
 const ProductDetails = () => {
+  const { cart, setCart } = useOutletContext();
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -34,7 +36,8 @@ const ProductDetails = () => {
         setActiveImage(data.images[0]);
       } catch (error) {
         console.error(error);
-        setStatus("error");
+        /*         setStatus("error");
+         */
       }
     };
 
@@ -139,7 +142,13 @@ const ProductDetails = () => {
             <button className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] text-red-600 font-medium hover:bg-red-600 hover:text-white">
               Buy
             </button>
-            <button className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] font-medium text-white bg-red-600 hover:text-red-600 hover:bg-white">
+            <button
+              onClick={() => {
+                const newArray = addToCart(cart, product);
+                setCart(newArray);
+              }}
+              className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] font-medium text-white bg-red-600 hover:text-red-600 hover:bg-white"
+            >
               Add To Cart
             </button>
           </div>
