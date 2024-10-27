@@ -101,7 +101,7 @@ const ProductDetails = () => {
                   key={images}
                 >
                   <img
-                    src={product.images[(0, 1)]}
+                    src={images}
                     alt=""
                     className="w-full h-full object-scale-down mix-blend-multiply cursor-pointer"
                     onMouseEnter={() => handleMouseEnterProduct(images)}
