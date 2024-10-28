@@ -1,17 +1,38 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { SpinnerCircular } from 'spinners-react';
 
+const predefinedCategories = [
+  'TV',
+  'Smartphone',
+  'Console',
+  'Laptop',
+  'Tablet',
+  'Fashion',
+  'Audio',
+  'Camera',
+  'Gaming',
+  'Accessories',
+  'NEW',
+];
+
 const CategoryPage = () => {
   const { category } = useParams();
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [priceRange, setPriceRange] = useState([100, 100000]);
+  const [maxPrice, setMaxPrice] = useState(null);
   const [ratingFilter, setRatingFilter] = useState(null);
 
   useEffect(() => {
+    setProducts([]);
+    setError('');
+    setMaxPrice(null);
+    setRatingFilter(null);
+    setLoading(true);
+
     const fetchCategoryData = async () => {
       try {
         const response = await axios.get(
@@ -35,23 +56,26 @@ const CategoryPage = () => {
     fetchCategoryData();
   }, [category]);
 
-  const handleMinPriceChange = (e) => {
-    setPriceRange([parseInt(e.target.value), priceRange[1]]);
+  const handleCategoryChange = (newCategory) => {
+    navigate(`/category/${newCategory}`);
   };
 
-  const handleMaxPriceChange = (e) => {
-    setPriceRange([priceRange[0], parseInt(e.target.value)]);
+  const handleMaxPriceChange = (value) => {
+    setMaxPrice(parseInt(value, 10));
   };
 
   const handleRatingChange = (rating) => {
     setRatingFilter(rating);
   };
 
+  const parsePrice = (price) => {
+    return parseFloat(price.replace(',', '.')) || 0;
+  };
+
   const filteredProducts = products.filter((product) => {
-    const newPrice = parseFloat(product.new_price.replace(/[^\d]/g, '')) || 0;
+    const newPrice = parsePrice(product.new_price);
     return (
-      newPrice >= priceRange[0] &&
-      newPrice <= priceRange[1] &&
+      (!maxPrice || newPrice <= maxPrice) &&
       (!ratingFilter || product.rating >= ratingFilter)
     );
   });
@@ -61,85 +85,33 @@ const CategoryPage = () => {
       <div className='w-1/4 p-4 bg-base-200 rounded-lg'>
         <h3 className='text-lg font-semibold mb-4'>Product Categories</h3>
         <ul className='space-y-2'>
-          <li>
-            <input type='radio' name='category' value='Men' className='radio' />{' '}
-            Men
-          </li>
-          <li>
-            <input
-              type='radio'
-              name='category'
-              value='Women'
-              className='radio'
-            />{' '}
-            Women
-          </li>
-          <li>
-            <input
-              type='radio'
-              name='category'
-              value='Computers'
-              className='radio'
-            />{' '}
-            Computers and Accessories
-          </li>
-          <li>
-            <input
-              type='radio'
-              name='category'
-              value='Smart Watch Accessories'
-              className='radio'
-            />{' '}
-            Smart Watch Accessories
-          </li>
-          <li>
-            <input
-              type='radio'
-              name='category'
-              value='Mobiles'
-              className='radio'
-            />{' '}
-            Mobiles
-          </li>
+          {predefinedCategories.map((cat) => (
+            <li key={cat}>
+              <label className='flex items-center cursor-pointer'>
+                <input
+                  type='radio'
+                  name='category'
+                  value={cat}
+                  className='radio radio-primary mr-2'
+                  onChange={() => handleCategoryChange(cat)}
+                />
+                {cat}
+              </label>
+            </li>
+          ))}
         </ul>
 
         <h3 className='text-lg font-semibold mt-6'>Filter by Price</h3>
-        <div className='flex items-center gap-2 mt-2'>
-          <input
-            type='number'
-            min={100}
-            max={100000}
-            value={priceRange[0]}
-            onChange={handleMinPriceChange}
-            className='input input-bordered w-24'
-          />
-          <span>to</span>
-          <input
-            type='number'
-            min={100}
-            max={100000}
-            value={priceRange[1]}
-            onChange={handleMaxPriceChange}
-            className='input input-bordered w-24'
-          />
-        </div>
-        <div className='flex justify-between mt-4'>
+        <div className='flex flex-col items-start mt-2'>
           <input
             type='range'
-            min={100}
-            max={100000}
-            value={priceRange[0]}
-            onChange={handleMinPriceChange}
-            className='slider w-1/2'
+            min={0}
+            max={5000}
+            value={maxPrice || 5000}
+            onChange={(e) => handleMaxPriceChange(e.target.value)}
+            className='slider w-full'
           />
-          <input
-            type='range'
-            min={100}
-            max={100000}
-            value={priceRange[1]}
-            onChange={handleMaxPriceChange}
-            className='slider w-1/2'
-          />
+          <span>{`From $0 to ${maxPrice ? `$${maxPrice}` : ''}`}</span>
         </div>
 
         <h3 className='text-lg font-semibold mt-6'>Filter by Rating</h3>
@@ -189,13 +161,14 @@ const CategoryPage = () => {
                 </figure>
                 <div className='card-body'>
                   <h3 className='text-lg font-semibold truncate'>
-                    {product.name}
+                    {product.brand} {product.name}
                   </h3>
+
                   <p className='text-gray-500 text-sm line-through'>
-                    $ Old Price {product.old_price}
+                    Old price: ${product.old_price}
                   </p>
                   <p className='text-green-600 font-bold'>
-                    $ {product.new_price}
+                    ${product.new_price}
                   </p>
                   <p className='text-green-600 text-xs'>
                     {product.available ? 'In Stock' : 'Out of Stock'}
