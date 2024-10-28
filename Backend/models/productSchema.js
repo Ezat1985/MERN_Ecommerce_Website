@@ -1,19 +1,5 @@
 import mongoose from 'mongoose';
 
-const predefinedCategories = [
-  'TV',
-  'Smartphone',
-  'Console',
-  'Laptop',
-  'Tablet',
-  'Wearables',
-  'Audio',
-  'Camera',
-  'Gaming',
-  'Accessories',
-  'NEW',
-];
-
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -42,9 +28,8 @@ const productSchema = new mongoose.Schema({
     default: 0,
   },
   category: {
-    type: String,
-    enum: predefinedCategories,
-    default: 'NEW',
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
     required: true,
   },
   available: {

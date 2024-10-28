@@ -1,7 +1,7 @@
-import Product from "../../models/productSchema.js";
-import Category from "../../models/categorySchema.js";
-import asyncHandler from "../../utlis/asyncHandler.js";
-import ErrorResponse from "../../utlis/ErrorResponse.js";
+import Product from '../../models/productSchema.js';
+import Category from '../../models/categorySchema.js';
+import asyncHandler from '../../utlis/asyncHandler.js';
+import ErrorResponse from '../../utlis/ErrorResponse.js';
 
 // get All Products
 // @desc    Fetch all products
@@ -9,7 +9,7 @@ import ErrorResponse from "../../utlis/ErrorResponse.js";
 // @access  Public
 export const getAllProducts = asyncHandler(async (req, res, next) => {
   const products = await Product.find();
-  if (!products.length) throw new ErrorResponse("No product found", 404);
+  if (!products.length) throw new ErrorResponse('No product found', 404);
   res.json(products);
 });
 // get Product by id
@@ -50,38 +50,35 @@ export const udpateProduct = asyncHandler(async (req, res, next) => {
 // @access  Private/Admin
 
 export const CreateProduct = asyncHandler(async (req, res, next) => {
-  if (!req.files || req.files.length === 0) {
-    throw new ErrorResponse("No file uploaded", 400);
-  }
-
-  const { name, description, brand, new_price, old_price, category } = req.body;
+  const {
+    name,
+    description,
+    brand,
+    new_price,
+    old_price,
+    category: categoryName,
+  } = req.body;
   const imageUrls = req.files.map((file) => file.path);
 
-  if (!name || !description || !brand || !new_price || !old_price) {
-    throw new ErrorResponse(
-      "Name, description, brand, new_price, and old_price are required fields",
-      418
-    );
+  if (
+    !name ||
+    !description ||
+    !brand ||
+    !new_price ||
+    !old_price ||
+    !categoryName
+  ) {
+    throw new ErrorResponse('Please fill the required fields', 418);
   }
 
-  const validCategories = [
-    "TV",
-    "Smartphone",
-    "Console",
-    "Laptop",
-    "Tablet",
-    "Wearables",
-    "Audio",
-    "Camera",
-    "Gaming",
-    "Accessories",
-    "NEW",
-  ];
-  const validCategory = validCategories.includes(category) ? category : "NEW";
-
-  let existingCategory = await Category.findOne({ name: validCategory });
-  if (!existingCategory) {
-    existingCategory = await Category.create({ name: validCategory });
+  let category = await Category.findOne({ name: categoryName });
+  if (!category) {
+    category = new Category({
+      name: categoryName,
+      description: 'NEW',
+      products: [],
+    });
+    await category.save();
   }
 
   const newProduct = await Product.create({
@@ -91,8 +88,11 @@ export const CreateProduct = asyncHandler(async (req, res, next) => {
     brand,
     new_price,
     old_price,
-    category: existingCategory.name,
+    category: category._id,
   });
+
+  category.products.push(newProduct._id);
+  await category.save();
 
   res.status(201).json(newProduct);
 });
