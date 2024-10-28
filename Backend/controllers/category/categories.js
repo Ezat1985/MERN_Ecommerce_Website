@@ -4,6 +4,8 @@ import asyncHandler from '../../utlis/asyncHandler.js';
 import ErrorResponse from '../../utlis/ErrorResponse.js';
 
 export const getAllCategories = asyncHandler(async (req, res, next) => {
+  const limit = parseInt(req.query.limit) || 5;
+
   const categories = await Category.find();
 
   if (!categories.length) {
@@ -12,7 +14,9 @@ export const getAllCategories = asyncHandler(async (req, res, next) => {
 
   const categoriesWithProducts = await Promise.all(
     categories.map(async (category) => {
-      const products = await Product.find({ category: category._id });
+      const products = await Product.find({ category: category._id }).limit(
+        limit
+      );
       return {
         ...category._doc,
         products,

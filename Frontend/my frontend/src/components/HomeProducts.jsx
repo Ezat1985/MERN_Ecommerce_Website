@@ -1,52 +1,28 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const predefinedCategories = [
-  'TV',
-  'Smartphone',
-  'Console',
-  'Laptop',
-  'Tablet',
-  'Fashion',
-  'Audio',
-  'Camera',
-  'Gaming',
-  'Accessories',
-  'NEW',
-];
-
 const HomeProducts = () => {
-  const [categoryProducts, setCategoryProducts] = useState({});
+  const [categoryProducts, setCategoryProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategoryProducts = async () => {
+    const fetchCategoriesWithProducts = async () => {
       setLoading(true);
 
       try {
-        const categoryData = {};
+        const res = await fetch(`http://localhost:3001/categories?limit=5`);
+        if (!res.ok) throw new Error('Fetching categories failed');
 
-        for (const category of predefinedCategories) {
-          const res = await fetch(
-            `http://localhost:3001/products?category=${category}&limit=5`
-          );
-
-          if (!res.ok) throw Error(`Fetching failed for ${category}`);
-
-          const data = await res.json();
-          console.log(`Fetched products for category "${category}":`, data);
-          categoryData[category] = data;
-        }
-
-        setCategoryProducts(categoryData);
+        const data = await res.json();
+        setCategoryProducts(data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching categories with products:', error);
         setLoading(false);
       }
     };
 
-    fetchCategoryProducts();
+    fetchCategoriesWithProducts();
   }, []);
 
   return (
@@ -55,20 +31,16 @@ const HomeProducts = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        predefinedCategories.map((category) => (
-          <div key={category} className='mb-10'>
-            <h2 className='text-xl font-semibold mb-2'>{category}</h2>
-            <div className='text-gray-500 mb-4'>
-              Do not miss the current offers until the end of March.
-            </div>
+        categoryProducts.map((category) => (
+          <div key={category._id} className='mb-10'>
+            <h2 className='text-xl font-semibold mb-2'>{category.name}</h2>
             <div className='flex gap-5 overflow-x-auto'>
-              {categoryProducts[category] &&
-              categoryProducts[category].length > 0 ? (
-                categoryProducts[category].map((product) => (
+              {category.products && category.products.length > 0 ? (
+                category.products.map((product) => (
                   <Link
                     to={`/product/${product._id}`}
                     key={product._id}
-                    className='card card-compact bg-base-100 w-64 shadow-xl'
+                    className='card bg-base-100 w-72 shadow-xl'
                   >
                     <figure>
                       <img
@@ -82,21 +54,24 @@ const HomeProducts = () => {
                       />
                     </figure>
                     <div className='card-body'>
-                      <h3 className='card-title truncate'>{product.name}</h3>
+                      <h3 className='card-title text-base font-medium leading-tight'>
+                        {product.name}
+                      </h3>
                       <p className='text-green-600 font-bold'>
-                        Rs {product.new_price}
+                        ${product.new_price}
                       </p>
                       {product.old_price && (
                         <p className='text-gray-500 line-through'>
-                          Rs {product.old_price}
+                          ${product.old_price}
                         </p>
                       )}
                       {product.old_price && product.new_price && (
                         <p className='text-red-500 text-sm'>
                           Save{' '}
                           {Math.round(
-                            ((product.old_price - product.new_price) /
-                              product.old_price) *
+                            ((parseFloat(product.old_price) -
+                              parseFloat(product.new_price)) /
+                              parseFloat(product.old_price)) *
                               100
                           )}
                           %
