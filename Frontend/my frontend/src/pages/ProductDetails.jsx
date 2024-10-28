@@ -23,7 +23,7 @@ const ProductDetails = () => {
         if (!res.ok) throw new Error('Fetching failed');
         const data = await res.json();
         setProduct(data);
-        setActiveImage(data.images[0]);
+        setActiveImage(data.images[0] || ''); // Set initial active image if available
       } catch (error) {
         console.error(error);
       }
@@ -45,8 +45,8 @@ const ProductDetails = () => {
   const handleTabChange = (tab) => setTab(tab);
 
   const calculateDiscount = (oldPrice, newPrice) => {
-    const oldPriceNum = parseFloat(oldPrice.replace(',', '.'));
-    const newPriceNum = parseFloat(newPrice.replace(',', '.'));
+    const oldPriceNum = parseFloat(oldPrice);
+    const newPriceNum = parseFloat(newPrice);
     return oldPriceNum && newPriceNum
       ? Math.round(((oldPriceNum - newPriceNum) / oldPriceNum) * 100)
       : null;
@@ -76,23 +76,14 @@ const ProductDetails = () => {
             />
           </div>
 
-          <div className='flex gap-2 lg:flex-col  h-full'>
-            {product.images.map((images, index) => {
-              return (
-                <div
-                  className='h-20 w-20 bg-slate-200 rounded p-1'
-                  key={images}
-                >
-                  <img
-                    src={product.images[(0, 1)]}
-                    alt=''
-                    className='w-full h-full object-scale-down mix-blend-multiply cursor-pointer'
-                    onMouseEnter={() => handleMouseEnterProduct(images)}
-                    onClick={() => handleMouseEnterProduct(images)}
-                  />
-                </div>
-              );
-            })}
+          <div className='flex gap-2 lg:flex-col h-full'>
+            {product.images.map((image, index) => (
+              <Thumbnail
+                key={index}
+                image={image}
+                onMouseEnter={() => handleMouseEnterThumbnail(image)}
+              />
+            ))}
           </div>
         </div>
 
@@ -108,17 +99,21 @@ const ProductDetails = () => {
             <span className='text-slate-500 text-sm'>(0 Reviews)</span>
           </div>
           <div className='flex items-center gap-2 text-2xl font-bold mb-3'>
-            <span className='text-green-600 '>${product.new_price}</span>
-            <span className='text-red-600 line-through'>
-              ${product.old_price}
-            </span>
+            <span className='text-green-600'>${product.new_price}</span>
+            {product.old_price && (
+              <span className='text-red-600 line-through'>
+                ${product.old_price}
+              </span>
+            )}
           </div>
           {product.old_price && product.new_price && (
             <p className='text-green-500 text-lg font-bold'>
               Save {calculateDiscount(product.old_price, product.new_price)}%
             </p>
           )}
-          <p className='font-semibold mb-4'>IN STOCK</p>
+          <p className='font-semibold mb-4'>
+            {product.available ? 'IN STOCK' : 'OUT OF STOCK'}
+          </p>
           <p className='text-slate-600 mb-6'>{product.description}</p>
 
           <div className='flex items-center gap-3 mb-4'>

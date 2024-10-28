@@ -55,7 +55,7 @@ const HomeProducts = () => {
                     </figure>
                     <div className='card-body'>
                       <h3 className='card-title text-base font-medium leading-tight'>
-                        {product.name}
+                        {product.brand} {product.name}
                       </h3>
                       <p className='text-green-600 font-bold'>
                         ${product.new_price}
