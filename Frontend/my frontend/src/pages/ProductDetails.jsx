@@ -75,14 +75,24 @@ const ProductDetails = () => {
               alt='Product'
             />
           </div>
-          <div className='flex gap-2 lg:flex-col'>
-            {product.images.map((image, index) => (
-              <Thumbnail
-                key={index}
-                image={image}
-                onMouseEnter={() => handleMouseEnterThumbnail(image)}
-              />
-            ))}
+
+          <div className='flex gap-2 lg:flex-col  h-full'>
+            {product.images.map((images, index) => {
+              return (
+                <div
+                  className='h-20 w-20 bg-slate-200 rounded p-1'
+                  key={images}
+                >
+                  <img
+                    src={product.images[(0, 1)]}
+                    alt=''
+                    className='w-full h-full object-scale-down mix-blend-multiply cursor-pointer'
+                    onMouseEnter={() => handleMouseEnterProduct(images)}
+                    onClick={() => handleMouseEnterProduct(images)}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 
