@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { SpinnerCircular } from 'spinners-react';
 import axios from 'axios';
@@ -26,9 +26,37 @@ const CategoryList = () => {
     fetchCategories();
   }, [fetchCategories]);
 
+  const categoryElements = useMemo(
+    () =>
+      categories.map((category) => (
+        <Link
+          to={`/category/${category.name}`}
+          className='flex flex-col items-center min-w-[100px] transition-transform transform hover:scale-105'
+          key={`category-${category.name}`}
+          aria-label={`View products in ${category.name} category`}
+        >
+          <div className='w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden bg-slate-200 border-2 border-slate-400 hover:border-slate-600 shadow-lg flex items-center justify-center transition-all duration-300'>
+            <img
+              src={
+                category.products.length > 0
+                  ? category.products[0].images[0]
+                  : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
+              }
+              alt={`${category.name} category`}
+              className='h-full w-full object-cover transition-transform duration-300 hover:scale-110'
+            />
+          </div>
+          <p className='text-center text-sm md:text-base capitalize mt-2 font-semibold'>
+            {category.name}
+          </p>
+        </Link>
+      )),
+    [categories]
+  );
+
   return (
     <div className='container mx-auto p-4'>
-      <h2 className='text-2xl mb-4 text-center'>Featured Categories</h2>
+      <h2 className='text-2xl mb-4 font-semibold'>Featured Categories</h2>
 
       {loading && (
         <div className='flex justify-center'>
@@ -45,30 +73,9 @@ const CategoryList = () => {
       {error && <p className='text-red-500 text-center'>{error}</p>}
 
       {!loading && !error && (
-        <div className='flex justify-between gap-4 overflow-x-auto scrollbar-hide px-4'>
+        <div className='flex justify-around gap-4 overflow-x-auto scrollbar-hide px-4 py-2'>
           {categories.length > 0 ? (
-            categories.map((category) => (
-              <Link
-                to={`/product-category/${category.name}`}
-                className='flex flex-col items-center min-w-[100px]'
-                key={`category-${category.name}`}
-              >
-                <div className='w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden bg-slate-200 border-4 flex items-center justify-center'>
-                  <img
-                    src={
-                      category.products.length > 0
-                        ? category.products[0].images[0]
-                        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
-                    }
-                    alt={category.name}
-                    className='h-full w-full object-cover transition-transform duration-300 hover:scale-150'
-                  />
-                </div>
-                <p className='text-center text-sm md:text-base capitalize mt-2'>
-                  {category.name}
-                </p>
-              </Link>
-            ))
+            categoryElements
           ) : (
             <p className='text-center w-full'>No categories found</p>
           )}
