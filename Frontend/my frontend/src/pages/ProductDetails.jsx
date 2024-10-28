@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { BsCart } from 'react-icons/bs';
 import { FaRegStar } from 'react-icons/fa6';
 
@@ -21,7 +21,6 @@ const ProductDetails = () => {
       try {
         const res = await fetch(`http://localhost:3001/products/${id}`);
         if (!res.ok) throw new Error('Fetching failed');
-
         const data = await res.json();
         setProduct(data);
         setActiveImage(data.images[0]);
@@ -29,27 +28,29 @@ const ProductDetails = () => {
         console.error(error);
       }
     };
-
     fetchProduct();
   }, [id]);
 
   const handleMouseEnterThumbnail = (image) => setActiveImage(image);
-
   const handleMouseEnterImage = () => setZoomScale(2);
   const handleMouseLeaveImage = () => setZoomScale(1.0);
-
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.target.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
     setZoomCoordinates({ x: `${x}%`, y: `${y}%` });
   };
-
-  const handleQuantityChange = (amount) => {
+  const handleQuantityChange = (amount) =>
     setQuantity((prev) => Math.max(1, prev + amount));
-  };
-
   const handleTabChange = (tab) => setTab(tab);
+
+  const calculateDiscount = (oldPrice, newPrice) => {
+    const oldPriceNum = parseFloat(oldPrice.replace(',', '.'));
+    const newPriceNum = parseFloat(newPrice.replace(',', '.'));
+    return oldPriceNum && newPriceNum
+      ? Math.round(((oldPriceNum - newPriceNum) / oldPriceNum) * 100)
+      : null;
+  };
 
   if (!product) return <p>Loading...</p>;
 
@@ -96,13 +97,18 @@ const ProductDetails = () => {
             <FaRegStar />
             <span className='text-slate-500 text-sm'>(0 Reviews)</span>
           </div>
-          <div className='flex items-center gap-2 text-2xl font-medium mb-3'>
-            <span className='text-green-600'>{product.new_price}</span>
-            <span className='text-slate-400 line-through'>
-              {product.old_price}
+          <div className='flex items-center gap-2 text-2xl font-bold mb-3'>
+            <span className='text-green-600 '>${product.new_price}</span>
+            <span className='text-red-600 line-through'>
+              ${product.old_price}
             </span>
           </div>
-          <p className='text-green-600 font-semibold mb-4'>IN STOCK</p>
+          {product.old_price && product.new_price && (
+            <p className='text-green-500 text-lg font-bold'>
+              Save {calculateDiscount(product.old_price, product.new_price)}%
+            </p>
+          )}
+          <p className='font-semibold mb-4'>IN STOCK</p>
           <p className='text-slate-600 mb-6'>{product.description}</p>
 
           <div className='flex items-center gap-3 mb-4'>

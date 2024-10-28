@@ -154,23 +154,38 @@ const CategoryPage = () => {
               >
                 <figure>
                   <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    className='w-full h-48 object-cover rounded-md'
+                    src={
+                      product.images && product.images.length > 0
+                        ? product.images[0]
+                        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
+                    }
+                    alt={product.name || 'No image available'}
+                    className='w-full h-80 object-cover rounded-md'
                   />
                 </figure>
                 <div className='card-body'>
                   <h3 className='text-lg font-semibold truncate'>
                     {product.brand} {product.name}
                   </h3>
-
                   <p className='text-gray-500 text-sm line-through'>
                     Old price: ${product.old_price}
                   </p>
-                  <p className='text-green-600 font-bold'>
-                    ${product.new_price}
-                  </p>
-                  <p className='text-green-600 text-xs'>
+                  <div className='flex justify-start w-40'>
+                    <p className='font-bold'>${product.new_price}</p>
+                    {product.old_price && product.new_price && (
+                      <p className='text-green-500 text-sm font-bold'>
+                        Save{' '}
+                        {Math.round(
+                          ((parseFloat(product.old_price.replace(',', '.')) -
+                            parseFloat(product.new_price.replace(',', '.'))) /
+                            parseFloat(product.old_price.replace(',', '.'))) *
+                            100
+                        )}
+                        %
+                      </p>
+                    )}
+                  </div>
+                  <p className='text-xs font-bold text-green-500'>
                     {product.available ? 'In Stock' : 'Out of Stock'}
                   </p>
                   <div className='flex items-center mt-2'>
