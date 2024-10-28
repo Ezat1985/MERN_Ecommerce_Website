@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { MdModeEditOutline } from 'react-icons/md';
-import { AiOutlineCheck, AiOutlineDelete } from 'react-icons/ai';
+import {
+  AiOutlineCheck,
+  AiOutlineDelete,
+  AiOutlineClose,
+} from 'react-icons/ai';
 
 const predefinedCategories = [
   { id: '671bbf0f51c2b9852e51a041', name: 'TV' },
@@ -43,6 +47,11 @@ const ProductList = () => {
   const handleEditClick = (product) => {
     setEditProductId(product._id);
     setEditedProduct(product);
+  };
+
+  const handleCancelClick = () => {
+    setEditProductId(null); // Exit edit mode without saving
+    setEditedProduct({}); // Clear edited product data
   };
 
   const handleInputChange = (e) => {
@@ -93,7 +102,6 @@ const ProductList = () => {
     }
   };
 
-  // Helper function to get category name by ID
   const getCategoryName = (categoryId) => {
     const category = predefinedCategories.find((cat) => cat.id === categoryId);
     return category ? category.name : 'Unknown';
@@ -239,26 +247,34 @@ const ProductList = () => {
                   )}
                 </td>
                 <td>
-                  <button
-                    onClick={() =>
-                      editProductId === product._id
-                        ? handleSaveClick()
-                        : handleEditClick(product)
-                    }
-                    className='text-xl'
-                  >
-                    {editProductId === product._id ? (
-                      <AiOutlineCheck className='text-green-500' />
-                    ) : (
-                      <MdModeEditOutline className='text-blue-500' />
-                    )}
-                  </button>
-                  <button
-                    onClick={() => handleDeleteClick(product._id)}
-                    className='text-xl text-red-500 ml-2'
-                  >
-                    <AiOutlineDelete />
-                  </button>
+                  {editProductId === product._id ? (
+                    <>
+                      <button onClick={handleSaveClick} className='text-xl'>
+                        <AiOutlineCheck className='text-green-500' />
+                      </button>
+                      <button
+                        onClick={handleCancelClick}
+                        className='text-xl ml-2'
+                      >
+                        <AiOutlineClose className='text-gray-500' />
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleEditClick(product)}
+                        className='text-xl'
+                      >
+                        <MdModeEditOutline className='text-blue-500' />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteClick(product._id)}
+                        className='text-xl text-red-500 ml-2'
+                      >
+                        <AiOutlineDelete />
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))
