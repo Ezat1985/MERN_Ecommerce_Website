@@ -11,12 +11,13 @@ const Cart = () => {
   return (
     <div>
       <h2 className="font-bold p-4 text-center text-xl text-slate-700 bg-slate-200 mb-5">
-        Your cart
+        Your cart <br />
+        <span className="text-sm">There are {1} products in your cart </span>
       </h2>
       <div className="flex flex-row flex-wrap justify-center gap-40">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto bg-slate-100 rounded-lg">
           <table className="table">
-            <thead>
+            <thead className="bg-slate-200 text-xl">
               <tr>
                 <th>Product</th>
                 <th>Title</th>
