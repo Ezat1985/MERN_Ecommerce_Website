@@ -7,6 +7,7 @@ import { addToCart } from "../utils/cart";
 
 const ProductDetails = () => {
   const { cart, setCart } = useOutletContext();
+  //const isProductInCart = cart.find((item) => item.id === product.id);
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -139,9 +140,6 @@ const ProductDetails = () => {
           </div>
 
           <div className="flex items-center gap-3 my-2">
-            <button className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] text-red-600 font-medium hover:bg-red-600 hover:text-white">
-              Buy
-            </button>
             <button
               onClick={() => {
                 const newArray = addToCart(cart, product);

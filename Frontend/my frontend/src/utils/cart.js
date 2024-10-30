@@ -1,9 +1,9 @@
 const addToCart = (cart, newProduct) => {
-  const existingProduct = cart.find((item) => item.id === newProduct.id);
+  const existingProduct = cart.find((item) => item._id === newProduct._id);
 
   if (existingProduct) {
     return cart.map((item) =>
-      item.id === newProduct.id
+      item._id === newProduct._id
         ? { ...item, quantity: item.quantity + 1 }
         : item
     );
@@ -13,13 +13,13 @@ const addToCart = (cart, newProduct) => {
 };
 
 const removeFromCart = (cart, newProduct) => {
-  const existingProduct = cart.find((item) => item.id === newProduct.id);
+  const existingProduct = cart.find((item) => item._id === newProduct._id);
 
   if (existingProduct.quantity === 1) {
-    return cart.filter((item) => item.id !== newProduct.id);
+    return cart.filter((item) => item._id !== newProduct._id);
   } else {
     return cart.map((item) =>
-      item.id === newProduct.id
+      item._id === newProduct._id
         ? { ...item, quantity: item.quantity - 1 }
         : item
     );

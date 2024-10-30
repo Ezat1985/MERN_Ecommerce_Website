@@ -3,16 +3,23 @@ import { addToCart, removeFromCart } from "../utils/cart.js";
 
 const Cart = () => {
   const { cart, setCart } = useOutletContext();
-
+  const Cost = cart.reduce(
+    (acc, item) => acc + item.quantity * item.new_price,
+    0
+  );
+  const totalCost = Cost + 7;
+  const allProducts = cart.reduce((acc, item) => acc + item.quantity, 0);
   if (!cart.length) {
     return <div className="text-center text-2xl pt-40">No items in Cart!</div>;
   }
   console.log(cart);
   return (
     <div>
-      <h2 className="font-bold p-4 text-center text-xl text-slate-700 bg-slate-200 mb-5">
+      <h2 className="font-bold p-4 text-center text-xl text-slate-700 bg-slate-100 mb-5">
         Your cart <br />
-        <span className="text-sm">There are {1} products in your cart </span>
+        <span className="text-sm">
+          There are {allProducts} products in your cart{" "}
+        </span>
       </h2>
       <div className="flex flex-row flex-wrap justify-center gap-40">
         <div className="overflow-x-auto bg-slate-100 rounded-lg">
@@ -60,13 +67,17 @@ const Cart = () => {
                   <td>{item.quantity * item.new_price} €</td>
                   <td>
                     <button
-                      className="btn btn-circle btn-sm text-red-500"
+                      className="btn btn-circle btn-sm size-4 mx-7"
                       onClick={() => {
                         const newArray = removeFromCart(cart, item);
                         setCart(newArray);
                       }}
                     >
-                      x
+                      <img
+                        src="./src/images/bin.png"
+                        alt="bin"
+                        className="items-center"
+                      />
                     </button>
                   </td>
                 </tr>
@@ -86,7 +97,7 @@ const Cart = () => {
             <tbody>
               <tr>
                 <td>Cost All Products</td>
-                <td> 1000 €</td>
+                <td> {Cost} €</td>
                 {/*  <td>{item.quantity * item.new_price} €</td> */}
               </tr>
               <tr>
@@ -96,7 +107,7 @@ const Cart = () => {
               </tr>
               <tr>
                 <td>Total</td>
-                <td> 1007 €</td>
+                <td> {totalCost} €</td>
                 {/*  <td>{item.quantity * item.new_price} €</td> */}
               </tr>
               <button className="btn btn-warning p-3 ml-20 my-5 ">
