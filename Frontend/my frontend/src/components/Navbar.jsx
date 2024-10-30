@@ -1,15 +1,21 @@
+/* eslint-disable no-unused-vars */
 import { TbShoppingBagSearch } from 'react-icons/tb';
 import { FaRegCircleUser } from 'react-icons/fa6';
-import logo from '../images/logo.png';
 import { GiShoppingCart } from 'react-icons/gi';
+import logo from '../images/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useState } from 'react';
+import SearchDropdown from './SearchDropdown';
 
 const Navbar = () => {
   const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useAuth();
   const navigate = useNavigate();
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -27,13 +33,36 @@ const Navbar = () => {
       console.error(error);
     }
   };
-  const handleSearch = (e) => {
-    const { value } = e.target;
+
+  const handleSearch = async (value) => {
+    setQuery(value);
     if (value) {
-      navigate(`/search?q=${value}`);
+      try {
+        const response = await fetch(
+          `http://localhost:3001/products/search?query=${encodeURIComponent(
+            value
+          )}`
+        );
+        const data = await response.json();
+        setResults(data.results);
+        setShowDropdown(true);
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+      }
     } else {
-      navigate('/search');
+      setResults([]);
+      setShowDropdown(false); // Hide dropdown if no query
     }
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    handleSearch(value);
+  };
+
+  const closeDropdown = () => {
+    setShowDropdown(false);
+    setQuery(''); // Clear query on close
   };
 
   return (
@@ -43,16 +72,21 @@ const Navbar = () => {
           <img src={logo} alt='logo' className='w-14 h-50' />
         </Link>
 
-        <div className='hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2'>
+        <div className='relative hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full pl-2'>
           <input
             type='text'
-            placeholder=' Search product here...'
+            placeholder='Search product here...'
             className='w-full outline-none'
-            onChange={handleSearch}
+            value={query}
+            onChange={handleInputChange}
+            onFocus={() => setShowDropdown(true)}
           />
           <div className='text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white'>
             <TbShoppingBagSearch />
           </div>
+          {showDropdown && (
+            <SearchDropdown results={results} onClose={closeDropdown} />
+          )}
         </div>
 
         <div className='flex items-center gap-7'>
@@ -91,7 +125,7 @@ const Navbar = () => {
                 Login
               </Link>
             )}
-          </div>{' '}
+          </div>
           <div className='dropdown dropdown-end'>
             <div
               tabIndex={0}
