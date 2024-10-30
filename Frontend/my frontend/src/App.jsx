@@ -18,14 +18,12 @@ import ProductList from './components/ProductList.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
 import CategoryPage from './pages/CategoryPage.jsx';
 import UserList from './components/UserList.jsx';
-import SearchProduct from './pages/SearchProduct.jsx';
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<MainLayout />}>
         <Route path='/' element={<Home />} />
-        <Route path='/search' element={<SearchProduct />} />
         <Route path='/login' element={<LoginForm />} />
         <Route path='/register' element={<RegisterForm />} />
         <Route path='/forgot-password' element={<ForgotPassowrd />} />
