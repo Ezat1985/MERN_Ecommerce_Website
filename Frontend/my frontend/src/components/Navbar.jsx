@@ -1,19 +1,20 @@
 /* eslint-disable no-unused-vars */
-import { TbShoppingBagSearch } from 'react-icons/tb';
-import { FaRegCircleUser } from 'react-icons/fa6';
-import { GiShoppingCart } from 'react-icons/gi';
-import logo from '../images/logo.png';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthProvider';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import { useState } from 'react';
-import SearchDropdown from './SearchDropdown';
+import { TbShoppingBagSearch } from "react-icons/tb";
+import { FaRegCircleUser } from "react-icons/fa6";
+import { GiShoppingCart } from "react-icons/gi";
+import logo from "../images/logo.png";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthProvider";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import SearchDropdown from "./SearchDropdown";
 
-const Navbar = () => {
+const Navbar = ({ cart }) => {
   const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useAuth();
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
   const navigate = useNavigate();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -27,7 +28,7 @@ const Navbar = () => {
       setIsLoggedIn(false);
       setUserData({});
       toast(`Goodbye ${userData.firstName}`, {
-        icon: '👏',
+        icon: "👏",
       });
     } catch (error) {
       console.error(error);
@@ -47,7 +48,7 @@ const Navbar = () => {
         setResults(data.results);
         setShowDropdown(true);
       } catch (error) {
-        console.error('Error fetching search results:', error);
+        console.error("Error fetching search results:", error);
       }
     } else {
       setResults([]);
@@ -62,26 +63,26 @@ const Navbar = () => {
 
   const closeDropdown = () => {
     setShowDropdown(false);
-    setQuery(''); // Clear query on close
+    setQuery(""); // Clear query on close
   };
 
   return (
-    <div className='Header h-16 shadow-md'>
-      <div className='container h-full mx-auto flex items-center px-4 justify-between'>
-        <Link to={'/'}>
-          <img src={logo} alt='logo' className='w-14 h-50' />
+    <div className="Header h-16 shadow-md">
+      <div className="container h-full mx-auto flex items-center px-4 justify-between">
+        <Link to={"/"}>
+          <img src={logo} alt="logo" className="w-14 h-50" />
         </Link>
 
-        <div className='relative hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full pl-2'>
+        <div className="relative hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full pl-2">
           <input
-            type='text'
-            placeholder='Search product here...'
-            className='w-full outline-none'
+            type="text"
+            placeholder="Search product here..."
+            className="w-full outline-none"
             value={query}
             onChange={handleInputChange}
             onFocus={() => setShowDropdown(true)}
           />
-          <div className='text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white'>
+          <div className="text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white">
             <TbShoppingBagSearch />
           </div>
           {showDropdown && (
@@ -89,65 +90,65 @@ const Navbar = () => {
           )}
         </div>
 
-        <div className='flex items-center gap-7'>
-          <div className='text-2xl relative'>
+        <div className="flex items-center gap-7">
+          <Link to="/cart" className="text-2xl relative">
             <span>
               <GiShoppingCart />
             </span>
-            <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
-              <p className='text-sm'>0</p>
+            <div className="bg-red-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3">
+              <p className="text-sm">{cartCount}</p>
             </div>
-          </div>
+          </Link>
           {userData.admin && (
             <Link
-              to='/admin-panel'
-              className='px-3 py-1 rounded-full text-white bg-blue-600 hover:bg-blue-700'
+              to="/admin-panel"
+              className="px-3 py-1 rounded-full text-white bg-blue-600 hover:bg-blue-700"
             >
               Admin Panel
             </Link>
           )}
           <div>
             {isLoggedIn ? (
-              <div className='flex items-center space-x-4'>
+              <div className="flex items-center space-x-4">
                 <button
-                  className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700'
+                  className="px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700"
                   onClick={handleLogout}
                 >
                   LOGOUT
                 </button>
-                <p className='text-sm'>Welcome, {userData.firstName}</p>
+                <p className="text-sm">Welcome, {userData.firstName}</p>
               </div>
             ) : (
               <Link
-                to='/login'
-                className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700'
+                to="/login"
+                className="px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700"
               >
                 Login
               </Link>
             )}
           </div>
-          <div className='dropdown dropdown-end'>
+          <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
-              role='button'
-              className='btn btn-ghost btn-circle avatar'
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
             >
-              <div className='text-3xl cursor-pointer'>
+              <div className="text-3xl cursor-pointer">
                 <FaRegCircleUser />
               </div>
             </div>
             <ul
               tabIndex={0}
-              className='menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow'
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link to='/profile' className='justify-between'>
+                <Link to="/profile" className="justify-between">
                   Profile
-                  <span className='badge'>New</span>
+                  <span className="badge">New</span>
                 </Link>
               </li>
               <li>
-                <Link to='/settings'>Settings</Link>
+                <Link to="/settings">Settings</Link>
               </li>
               <li>
                 <button onClick={handleLogout}>Logout</button>
