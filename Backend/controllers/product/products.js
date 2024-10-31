@@ -1,7 +1,7 @@
-import Product from '../../models/productSchema.js';
-import Category from '../../models/categorySchema.js';
-import asyncHandler from '../../utlis/asyncHandler.js';
-import ErrorResponse from '../../utlis/ErrorResponse.js';
+import Product from "../../models/productSchema.js";
+import Category from "../../models/categorySchema.js";
+import asyncHandler from "../../utlis/asyncHandler.js";
+import ErrorResponse from "../../utlis/ErrorResponse.js";
 
 // get All Products
 // @desc    Fetch all products
@@ -9,7 +9,7 @@ import ErrorResponse from '../../utlis/ErrorResponse.js';
 // @access  Public
 export const getAllProducts = asyncHandler(async (req, res, next) => {
   const products = await Product.find();
-  if (!products.length) throw new ErrorResponse('No product found', 404);
+  if (!products.length) throw new ErrorResponse("No product found", 404);
   res.json(products);
 });
 // get Product by id
@@ -20,7 +20,7 @@ export const getAllProducts = asyncHandler(async (req, res, next) => {
 export const getSingleProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
-  const product = await Product.findById(id); // Check if product exists
+  const product = await Product.findById(id).populate("category", " name"); // Check if product exists
   if (!product)
     throw new ErrorResponse(`Product with id: ${id} does not exist`, 404);
   res.json(product);
@@ -68,14 +68,14 @@ export const CreateProduct = asyncHandler(async (req, res, next) => {
     !old_price ||
     !categoryName
   ) {
-    throw new ErrorResponse('Please fill the required fields', 418);
+    throw new ErrorResponse("Please fill the required fields", 418);
   }
 
   let category = await Category.findOne({ name: categoryName });
   if (!category) {
     category = new Category({
       name: categoryName,
-      description: 'NEW',
+      description: "NEW",
       products: [],
     });
     await category.save();
@@ -121,3 +121,44 @@ export const getProductsByCategory = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(products);
 });
+
+export const createProductReview = async (req, res, next) => {
+  const { rating, comment, productId } = req.body;
+
+  const review = {
+    user: req?.user?._id,
+    rating: Number(rating),
+    comment,
+  };
+
+  let product = await Product.findById(productId);
+
+  if (!product) {
+    return next(new ErrorHandler("Product not found.", 404));
+  }
+
+  const isReviewed = product?.reviews?.find(
+    (r) => r.user.toString() === req.user._id.toString()
+  );
+
+  if (isReviewed) {
+    product?.reviews.forEach((review) => {
+      if (review.user.toString() === req.user._id.toString()) {
+        review.comment = comment;
+        review.rating = rating;
+      }
+    });
+  } else {
+    product?.reviews.push(review);
+    product.numOfReviews = product.reviews.length;
+  }
+  product.ratings =
+    product?.reviews?.reduce((acc, item) => item.rating + acc, 0) /
+    product.reviews.length;
+
+  await product?.save();
+
+  res.status(200).json({
+    success: true,
+  });
+};
