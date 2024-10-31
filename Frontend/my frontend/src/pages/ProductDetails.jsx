@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { BsCart } from "react-icons/bs";
 import { FaRegStar } from "react-icons/fa6";
 import SingleCategory from "../components/SingleCategory";
+import { addToCart } from "../utils/cart";
 
 const ProductDetails = () => {
+  const { cart, setCart } = useOutletContext();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
 
@@ -136,7 +138,13 @@ const ProductDetails = () => {
             </button>
           </div>
           <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+            <button
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+              onClick={() => {
+                const newArray = addToCart(cart, product);
+                setCart(newArray);
+              }}
+            >
               <BsCart /> Add To Cart
             </button>
           </div>
@@ -188,7 +196,6 @@ const TabButton = ({ label, active, onClick }) => (
     className={`px-4 py-2 rounded-t-lg ${
       active ? "bg-purple-500 text-white" : "text-slate-500"
     }`}
-    onClick={onClick}
   >
     {label}
   </button>
