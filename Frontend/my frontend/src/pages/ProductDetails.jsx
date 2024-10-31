@@ -134,54 +134,58 @@ const ProductDetails = () => {
               className="border-2 border-red-600 rounded px-3 py-1 min-w-[120px] font-medium text-white bg-red-600 hover:text-red-600 hover:bg-white"
             >
               Add To Cart
-          <div className="flex items-center gap-3 mb-4">
-            <button
-              className="border rounded-full px-2 py-1"
-              onClick={() => handleQuantityChange(-1)}
-            >
-              -
             </button>
-            <span className="font-semibold">{quantity}</span>
-            <button
-              className="border rounded-full px-2 py-1"
-              onClick={() => handleQuantityChange(1)}
-            >
-              +
-            </button>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
-              <BsCart /> Add To Cart
-            </button>
+            <div className="flex items-center gap-3 mb-4">
+              <button
+                className="border rounded-full px-2 py-1"
+                onClick={() => handleQuantityChange(-1)}
+              >
+                -
+              </button>
+              <span className="font-semibold">{quantity}</span>
+              <button
+                className="border rounded-full px-2 py-1"
+                onClick={() => handleQuantityChange(1)}
+              >
+                +
+              </button>
+            </div>
+            <div className="flex items-center gap-4">
+              <button className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+                <BsCart /> Add To Cart
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="mt-8">
-        <div className="flex gap-4 border-b pb-2 mb-4">
-          <TabButton
-            label="Description"
-            active={tab === "description"}
-            onClick={() => handleTabChange("description")}
-          />
-          <TabButton
-            label="Additional Info"
-            active={tab === "additional"}
-            onClick={() => handleTabChange("additional")}
-          />
-          <TabButton
-            label="Reviews"
-            active={tab === "reviews"}
-            onClick={() => handleTabChange("reviews")}
-          />
+        <div className="mt-8">
+          <div className="flex gap-4 border-b pb-2 mb-4">
+            <TabButton
+              label="Description"
+              active={tab === "description"}
+              onClick={() => handleTabChange("description")}
+            />
+            <TabButton
+              label="Additional Info"
+              active={tab === "additional"}
+              onClick={() => handleTabChange("additional")}
+            />
+            <TabButton
+              label="Reviews"
+              active={tab === "reviews"}
+              onClick={() => handleTabChange("reviews")}
+            />
+          </div>
+          <div className="p-4 bg-purple-100 rounded-lg">
+            {tab === "description" && <p>{product.description}</p>}
+            {tab === "additional" && (
+              <p>No additional information available.</p>
+            )}
+            {tab === "reviews" && <p>No reviews available.</p>}
+          </div>
         </div>
-        <div className="p-4 bg-purple-100 rounded-lg">
-          {tab === "description" && <p>{product.description}</p>}
-          {tab === "additional" && <p>No additional information available.</p>}
-          {tab === "reviews" && <p>No reviews available.</p>}
-        </div>
+        {<SingleCategory categoryId={product.category._id} />}
       </div>
-      {<SingleCategory categoryId={product.category._id} />}
     </div>
   );
 };
