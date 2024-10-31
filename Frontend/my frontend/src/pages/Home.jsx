@@ -2,6 +2,7 @@ import BannerProduct from "../components/BannerProduct.jsx";
 import CategoryList from "../components/CategoryList.jsx";
 import Singleproducttest from "../components/Singleproducttest.jsx";
 import HorizontalCardProduct from "../components/HorizontalCardProduct.jsx";
+import Footer from "../components/Footer.jsx";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
         heading={"Top's SmartPhones"}
       />
       <Singleproducttest />
+      <Footer />
     </div>
   );
 };

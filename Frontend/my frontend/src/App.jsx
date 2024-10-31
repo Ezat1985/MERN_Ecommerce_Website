@@ -20,7 +20,9 @@ import CategoryPage from "./pages/CategoryPage.jsx";
 import UserList from "./components/UserList.jsx";
 import Cart from "./pages/Cart.jsx";
 import FooterOrder from "./components/FooterOrder.jsx";
-
+import FooterShipping from "./components/FooterShipping.jsx";
+import FooterReturning from "./components/FooterReturning.jsx";
+import FooterPayPal from "./components/FooterPaypal.jsx";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -33,6 +35,9 @@ function App() {
         <Route path="/product-category/:category" element={<CategoryPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<FooterOrder />} />
+        <Route path="/shipping" element={<FooterShipping />} />
+        <Route path="/returning" element={<FooterReturning />} />
+        <Route path="/PayPal" element={<FooterPayPal />} />
         <Route path="/admin-panel" element={<AdminPanel />}>
           <Route path="add-product" element={<AddProduct />} />
           <Route path="AdminSidebar" element={<AdminSidebar />} />

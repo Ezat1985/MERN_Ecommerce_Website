@@ -2,34 +2,39 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="pt-10">
+    <div className="pt-10 bottom-0">
       <footer className="footer bg-base-200 text-base-content p-10 justify-evenly">
         <nav>
           <h6 className="footer-title">Ordering</h6>
-          <Link to="/FooterOrder" className="link link-hover">
+          <Link to="/order" className="link link-hover">
             How to order
           </Link>
-          <Link className="link link-hover">Shipping cost</Link>
-          <Link className="link link-hover">Returning</Link>
+          <Link to="/shipping" className="link link-hover">
+            Shipping & Cost
+          </Link>
+          <Link to="/returning" className="link link-hover">
+            Returning
+          </Link>
         </nav>
         <nav>
           <h6 className="footer-title">Payment</h6>
           <Link className="link link-hover">Bank transfer</Link>
           <Link className="link link-hover">Mastercard / VisaCard</Link>
-          <Link className="link link-hover">PayPal</Link>
+          <Link to="PayPal" className="link link-hover">
+            PayPal
+          </Link>
         </nav>
         <nav>
           <h6 className="footer-title">About us</h6>
           <Link className="link link-hover">About Ezio Electronics</Link>
           <Link className="link link-hover">Career</Link>
           <Link className="link link-hover">Service</Link>
+        </nav>
+        <nav>
+          <h6 className="footer-title">Contact & Privacy</h6>
           <Link className="link link-hover">Help & Contact</Link>
-        </nav>
-        <nav>
-          <h6 className="footer-title">Terms of service</h6>
-        </nav>
-        <nav>
-          <h6 className="footer-title">Privacy</h6>
+          <Link className="link link-hover">Terms of service</Link>
+          <Link className="link link-hover">Privacy</Link>
         </nav>
       </footer>
       <footer className="footer bg-base-200 text-base-content border-base-300 border-t py-4 justify-evenly">

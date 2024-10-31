@@ -1,27 +1,30 @@
 const FooterOrder = () => {
   return (
-    <div className="p-20">
-      <h5 className="text-2xl te ">How to order</h5>
-      <hr />
+    <div className="p-20 mx-96 text-center">
+      <h5 className="text-2xl pb-20">How to order</h5>
       <p>
-        Make sure to add one business day to allow for processing when you place
-        your order, in addition to the time it takes for the order to get to you
-        once it has shipped. This time is usually about 5-10 business days
-        within the EU but is often faster. This is different from country to
-        country. 95% of our EU shipments arrives within a week after receiving
-        your payment. <hr />
+        At Ezio Electronics you can pay using bank transfer or using one of the
+        following payment systems.
+      </p>
+      <br />
+      <p>Shipping is done with DHL</p>
+      <br />
+      <p>
+        Our webshop uses a Real Time stock indication. So if you can place the
+        wanted amount of products in the shopping basket it is, in 99% of the
+        time, on stock.
         <br />
-        International shipments within the EU have usually no problems getting
-        through customs. Shipping outside the EU can take a little bit longer
-        due to customs but are most of the times processed quickly. <hr />
         <br />
-        Note that for the EU there are virtually no import tariffs for loose
-        electronic components, parts & PCBs. However, you are responsible for
-        any VAT, tariff, duty, taxes, handling fees, customs clearance charges,
-        etc. etc. This said, untill this day we never had this kind of problem
-        shipping items within the EU. Shipping time outside the EU can take a
-        little bit longer due to customs. Sometimes you will have to pay VAT or
-        any other fees for importing goods. <hr />
+        If you want to finalize your order just click at the top right or the
+        top left side of your screen on the cart button. The shopping cart will
+        open en will give all the details of your chosen articles.
+        <br />
+        <br />
+        If everything is as you wish you can click the proceed to order button.{" "}
+        <br /> <br />
+        The following ordering screen will have a clear description on what to
+        do next. On this screen you can check how much the shipping costs will
+        be before you make your order final.
       </p>
     </div>
   );
