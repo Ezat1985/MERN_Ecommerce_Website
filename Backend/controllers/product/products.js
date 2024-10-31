@@ -20,7 +20,7 @@ export const getAllProducts = asyncHandler(async (req, res, next) => {
 export const getSingleProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
-  const product = await Product.findById(id); // Check if product exists
+  const product = await Product.findById(id).populate("category", " name"); // Check if product exists
   if (!product)
     throw new ErrorResponse(`Product with id: ${id} does not exist`, 404);
   res.json(product);
@@ -50,38 +50,35 @@ export const udpateProduct = asyncHandler(async (req, res, next) => {
 // @access  Private/Admin
 
 export const CreateProduct = asyncHandler(async (req, res, next) => {
-  if (!req.files || req.files.length === 0) {
-    throw new ErrorResponse("No file uploaded", 400);
-  }
-
-  const { name, description, brand, new_price, old_price, category } = req.body;
+  const {
+    name,
+    description,
+    brand,
+    new_price,
+    old_price,
+    category: categoryName,
+  } = req.body;
   const imageUrls = req.files.map((file) => file.path);
 
-  if (!name || !description || !brand || !new_price || !old_price) {
-    throw new ErrorResponse(
-      "Name, description, brand, new_price, and old_price are required fields",
-      418
-    );
+  if (
+    !name ||
+    !description ||
+    !brand ||
+    !new_price ||
+    !old_price ||
+    !categoryName
+  ) {
+    throw new ErrorResponse("Please fill the required fields", 418);
   }
 
-  const validCategories = [
-    "TV",
-    "Smartphone",
-    "Console",
-    "Laptop",
-    "Tablet",
-    "Wearables",
-    "Audio",
-    "Camera",
-    "Gaming",
-    "Accessories",
-    "NEW",
-  ];
-  const validCategory = validCategories.includes(category) ? category : "NEW";
-
-  let existingCategory = await Category.findOne({ name: validCategory });
-  if (!existingCategory) {
-    existingCategory = await Category.create({ name: validCategory });
+  let category = await Category.findOne({ name: categoryName });
+  if (!category) {
+    category = new Category({
+      name: categoryName,
+      description: "NEW",
+      products: [],
+    });
+    await category.save();
   }
 
   const newProduct = await Product.create({
@@ -91,8 +88,11 @@ export const CreateProduct = asyncHandler(async (req, res, next) => {
     brand,
     new_price,
     old_price,
-    category: existingCategory.name,
+    category: category._id,
   });
+
+  category.products.push(newProduct._id);
+  await category.save();
 
   res.status(201).json(newProduct);
 });
@@ -121,3 +121,44 @@ export const getProductsByCategory = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(products);
 });
+
+export const createProductReview = async (req, res, next) => {
+  const { rating, comment, productId } = req.body;
+
+  const review = {
+    user: req?.user?._id,
+    rating: Number(rating),
+    comment,
+  };
+
+  let product = await Product.findById(productId);
+
+  if (!product) {
+    return next(new ErrorHandler("Product not found.", 404));
+  }
+
+  const isReviewed = product?.reviews?.find(
+    (r) => r.user.toString() === req.user._id.toString()
+  );
+
+  if (isReviewed) {
+    product?.reviews.forEach((review) => {
+      if (review.user.toString() === req.user._id.toString()) {
+        review.comment = comment;
+        review.rating = rating;
+      }
+    });
+  } else {
+    product?.reviews.push(review);
+    product.numOfReviews = product.reviews.length;
+  }
+  product.ratings =
+    product?.reviews?.reduce((acc, item) => item.rating + acc, 0) /
+    product.reviews.length;
+
+  await product?.save();
+
+  res.status(200).json({
+    success: true,
+  });
+};

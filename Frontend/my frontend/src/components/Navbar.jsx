@@ -1,14 +1,21 @@
+/* eslint-disable no-unused-vars */
 import { TbShoppingBagSearch } from "react-icons/tb";
 import { FaRegCircleUser } from "react-icons/fa6";
-import logo from "../images/logo.png";
 import { GiShoppingCart } from "react-icons/gi";
-import { Link } from "react-router-dom";
+import logo from "../images/logo.png";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import SearchDropdown from "./SearchDropdown";
 
 const Navbar = ({ cart }) => {
   const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useAuth();
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   const handleLogout = async () => {
@@ -28,6 +35,37 @@ const Navbar = ({ cart }) => {
     }
   };
 
+  const handleSearch = async (value) => {
+    setQuery(value);
+    if (value) {
+      try {
+        const response = await fetch(
+          `http://localhost:3001/products/search?query=${encodeURIComponent(
+            value
+          )}`
+        );
+        const data = await response.json();
+        setResults(data.results);
+        setShowDropdown(true);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    } else {
+      setResults([]);
+      setShowDropdown(false); // Hide dropdown if no query
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    handleSearch(value);
+  };
+
+  const closeDropdown = () => {
+    setShowDropdown(false);
+    setQuery(""); // Clear query on close
+  };
+
   return (
     <div className="Header h-16 shadow-md">
       <div className="container h-full mx-auto flex items-center px-4 justify-between">
@@ -35,15 +73,21 @@ const Navbar = ({ cart }) => {
           <img src={logo} alt="logo" className="w-14 h-50" />
         </Link>
 
-        <div className="hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-2">
+        <div className="relative hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full pl-2">
           <input
             type="text"
-            placeholder=" Search product here..."
+            placeholder="Search product here..."
             className="w-full outline-none"
+            value={query}
+            onChange={handleInputChange}
+            onFocus={() => setShowDropdown(true)}
           />
           <div className="text-lg min-w-[50px] h-8 bg-red-600 flex items-center justify-center rounded-r-full text-white">
             <TbShoppingBagSearch />
           </div>
+          {showDropdown && (
+            <SearchDropdown results={results} onClose={closeDropdown} />
+          )}
         </div>
 
         <div className="flex items-center gap-7">
@@ -111,6 +155,34 @@ const Navbar = ({ cart }) => {
                 Login
               </Link>
             )}
+          </div>
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="text-3xl cursor-pointer">
+                <FaRegCircleUser />
+              </div>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <Link to="/profile" className="justify-between">
+                  Profile
+                  <span className="badge">New</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/settings">Settings</Link>
+              </li>
+              <li>
+                <button onClick={handleLogout}>Logout</button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
