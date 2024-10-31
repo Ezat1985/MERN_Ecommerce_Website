@@ -15,11 +15,11 @@ const FooterShipping = () => {
       </p>
       <br />
       <p>
-        Shipping costs to The Germany are between € 4,95 and € 7,50. To Belgium
-        between € 9,99 (not tracked) € 15,99 (tracked). Shipping is FREE to The
-        Netherlands from €75 and Belgium from €100. Shipping costs inside other
-        EU countries are between € 9,99 (Non tracked) and € 15,99 (tracked
-        shipment) depending on weight and volume of your order.
+        Shipping costs to the Germany are between € 4,95 and € 7,50, FREE from €
+        75. To Belgium between € 9,99 (not tracked) € 15,99 (tracked). and
+        Belgium from €100. Shipping costs inside other EU countries are between
+        € 9,99 (Non tracked) and € 15,99 (tracked shipment) depending on weight
+        and volume of your order.
         <br />
         <br />
         All deliveries are made using the standard postal delivery system in

@@ -23,6 +23,8 @@ import FooterOrder from "./components/FooterOrder.jsx";
 import FooterShipping from "./components/FooterShipping.jsx";
 import FooterReturning from "./components/FooterReturning.jsx";
 import FooterPayPal from "./components/FooterPaypal.jsx";
+import FakeCheckout from "./components/Checkout.jsx";
+
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -38,6 +40,7 @@ function App() {
         <Route path="/shipping" element={<FooterShipping />} />
         <Route path="/returning" element={<FooterReturning />} />
         <Route path="/PayPal" element={<FooterPayPal />} />
+        <Route path="/checkout" element={<FakeCheckout />} />
         <Route path="/admin-panel" element={<AdminPanel />}>
           <Route path="add-product" element={<AddProduct />} />
           <Route path="AdminSidebar" element={<AdminSidebar />} />

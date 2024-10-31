@@ -1,6 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 import { addToCart, removeFromCart } from "../utils/cart.js";
 import Footer from "../components/Footer.jsx";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const { cart, setCart } = useOutletContext();
@@ -112,9 +113,9 @@ const Cart = () => {
                   <td> {totalCost} €</td>
                   {/*  <td>{item.quantity * item.new_price} €</td> */}
                 </tr>
-                <button className="btn btn-warning p-3 ml-20 my-5 ">
+                <Link to="/checkout" className="btn bg-orange-200 ml-20">
                   Checkout
-                </button>
+                </Link>
               </tbody>
             </table>
           </div>
