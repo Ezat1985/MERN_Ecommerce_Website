@@ -1,6 +1,7 @@
-import BannerProduct from '../components/BannerProduct.jsx';
-import CategoryList from '../components/CategoryList.jsx';
-import HomeProducts from '../components/HomeProducts.jsx';
+import BannerProduct from "../components/BannerProduct.jsx";
+import CategoryList from "../components/CategoryList.jsx";
+import HomeProducts from "../components/HomeProducts.jsx";
+import Footer from "../components/Footer.jsx";
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <BannerProduct />
       <CategoryList />
       <HomeProducts />
+      <Footer />
     </div>
   );
 };
