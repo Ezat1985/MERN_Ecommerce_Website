@@ -122,6 +122,8 @@ export const getProductsByCategory = asyncHandler(async (req, res, next) => {
   res.status(200).json(products);
 });
 
+// Add product review
+
 export const createProductReview = async (req, res, next) => {
   const { rating, comment, productId } = req.body;
 
