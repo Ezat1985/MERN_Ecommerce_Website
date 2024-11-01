@@ -9,16 +9,6 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import SearchDropdown from './SearchDropdown';
-import { TbShoppingBagSearch } from 'react-icons/tb';
-import { FaRegCircleUser } from 'react-icons/fa6';
-import { GiShoppingCart } from 'react-icons/gi';
-import logo from '../images/logo.png';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthProvider';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import { useState } from 'react';
-import SearchDropdown from './SearchDropdown';
 
 const Navbar = ({ cart }) => {
   const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useAuth();
@@ -27,7 +17,6 @@ const Navbar = ({ cart }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   const handleLogout = async () => {
     try {
@@ -102,35 +91,6 @@ const Navbar = ({ cart }) => {
         </div>
 
         <div className='flex items-center gap-7'>
-          <div className='dropdown dropdown-end'>
-            <div
-              tabIndex={0}
-              role='button'
-              className='btn btn-ghost btn-circle avatar'
-            >
-              <div className='text-3xl cursor-pointer'>
-                <FaRegCircleUser />
-              </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className='menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow'
-            >
-              <li>
-                <Link to='/profile' className='justify-between'>
-                  Profile
-                  <span className='badge'>New</span>
-                </Link>
-              </li>
-              <li>
-                <Link to='/settings'>Settings</Link>
-              </li>
-              <li>
-                <button onClick={handleLogout}>Logout</button>
-              </li>
-            </ul>
-          </div>
-
           <Link to='/cart' className='text-2xl relative'>
             <span>
               <GiShoppingCart />
