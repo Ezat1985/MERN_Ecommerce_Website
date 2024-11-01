@@ -10,8 +10,9 @@ import toast from 'react-hot-toast';
 import { useState } from 'react';
 import SearchDropdown from './SearchDropdown';
 
-const Navbar = () => {
+const Navbar = ({ cart }) => {
   const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useAuth();
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -90,14 +91,14 @@ const Navbar = () => {
         </div>
 
         <div className='flex items-center gap-7'>
-          <div className='text-2xl relative'>
+          <Link to='/cart' className='text-2xl relative'>
             <span>
               <GiShoppingCart />
             </span>
             <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
-              <p className='text-sm'>0</p>
+              <p className='text-sm'>{cartCount}</p>
             </div>
-          </div>
+          </Link>
           {userData.admin && (
             <Link
               to='/admin-panel'

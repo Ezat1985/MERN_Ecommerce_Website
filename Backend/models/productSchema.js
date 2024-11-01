@@ -72,7 +72,7 @@ const productSchema = new mongoose.Schema({
   ],
   numOfReviews: {
     type: Number,
-    required: true,
+    required: false,
   },
 });
 
