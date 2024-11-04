@@ -32,7 +32,7 @@ const SingleCategory = ({ categoryId }) => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6 mt-10">RELATED PRODUCTS</h1>
-      <div className="container flex gap-4 mt-11 mx-auto p-4">
+      <div className="container flex gap-4 mt-11 mx-auto p-4 flex-wrap justify-center">
         {loading ? (
           <p>Loading...</p>
         ) : (
@@ -40,7 +40,7 @@ const SingleCategory = ({ categoryId }) => {
             <Link
               to={`/product/${product._id}`}
               key={product._id}
-              className="card bg-base-100 w-72 shadow-xl"
+              className="card card-side bg-slate-100 w-1/3 shadow-xl"
             >
               <figure>
                 <img
@@ -50,7 +50,7 @@ const SingleCategory = ({ categoryId }) => {
                       : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"
                   }
                   alt={product.name}
-                  className="h-48 w-full object-cover"
+                  className="max-w-fit max-h-fit object-cover"
                 />
               </figure>
               <div className="card-body">
