@@ -43,7 +43,7 @@ const CategoryList = () => {
                   : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"
               }
               alt={`${category.name} category`}
-              className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
+              className="max-h-16 max-w-16 object-cover transition-transform duration-300 hover:scale-110"
             />
           </div>
           <p className="text-center text-sm md:text-base capitalize mt-2 font-semibold">

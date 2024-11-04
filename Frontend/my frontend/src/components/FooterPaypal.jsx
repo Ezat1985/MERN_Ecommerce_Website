@@ -1,4 +1,4 @@
-const FooterShipping = () => {
+const FooterPayPal = () => {
   return (
     <div className="p-20 mx-96 text-center">
       <h5 className="text-2xl pb-20">PayPal</h5>
@@ -15,4 +15,4 @@ const FooterShipping = () => {
   );
 };
 
-export default FooterShipping;
+export default FooterPayPal;

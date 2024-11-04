@@ -40,7 +40,7 @@ const SingleCategory = ({ categoryId }) => {
             <Link
               to={`/product/${product._id}`}
               key={product._id}
-              className="card card-side bg-slate-100 w-1/3 shadow-xl"
+              className="card card-side bg-slate-100 max-w-96 max-h-fit shadow-xl"
             >
               <figure>
                 <img

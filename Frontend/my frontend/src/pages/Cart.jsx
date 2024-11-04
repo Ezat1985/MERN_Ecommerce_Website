@@ -54,7 +54,7 @@ const Cart = () => {
                       <img
                         src={item.images[0]}
                         alt=""
-                        className="w-fit h-16 rounded"
+                        className="w-auto h-16 rounded"
                       />
                     </td>
                     <td className="p-2">{item.name}</td>
