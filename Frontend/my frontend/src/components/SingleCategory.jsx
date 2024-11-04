@@ -40,7 +40,7 @@ const SingleCategory = ({ categoryId }) => {
             <Link
               to={`/product/${product._id}`}
               key={product._id}
-              className="card bg-base-100 w-72 shadow-xl"
+              className="card bg-base-100 w-72 shadow-xl border border-blue-50 m-4"
             >
               <figure>
                 <img
@@ -50,34 +50,40 @@ const SingleCategory = ({ categoryId }) => {
                       : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"
                   }
                   alt={product.name}
-                  className="h-48 w-full object-cover"
+                  className=" h-48 w-full object-center object-contain mt-2"
                 />
               </figure>
               <div className="card-body">
                 <h3 className="card-title text-base font-medium leading-tight">
-                  {product.brand} {product.name}
+                  {product.name}
                 </h3>
-                <p className="text-green-600 font-bold">${product.new_price}</p>
-                {product.old_price && (
-                  <p className="text-gray-500 line-through">
-                    ${product.old_price}
+                <div className=" mx-auto flex gap-11 mb-4 mt-4">
+                  <p className="text-green-600 font-bold">
+                    ${product.new_price}
                   </p>
-                )}
-                {product.old_price && product.new_price && (
-                  <p className="text-red-500 text-sm">
-                    Save{" "}
-                    {Math.round(
-                      ((parseFloat(product.old_price) -
-                        parseFloat(product.new_price)) /
-                        parseFloat(product.old_price)) *
-                        100
-                    )}
-                    %
+                  {product.old_price && (
+                    <p className="text-gray-500 line-through">
+                      ${product.old_price}
+                    </p>
+                  )}
+                </div>
+                <div className="flex gap-8">
+                  {product.old_price && product.new_price && (
+                    <p className="text-red-500 text-sm">
+                      Save{" "}
+                      {Math.round(
+                        ((parseFloat(product.old_price) -
+                          parseFloat(product.new_price)) /
+                          parseFloat(product.old_price)) *
+                          100
+                      )}
+                      %
+                    </p>
+                  )}
+                  <p className="text-sm text-green-500">
+                    {product.available ? "In Stock" : "Out of Stock"}
                   </p>
-                )}
-                <p className="text-sm text-green-500">
-                  {product.available ? "In Stock" : "Out of Stock"}
-                </p>
+                </div>
               </div>
             </Link>
           ))
