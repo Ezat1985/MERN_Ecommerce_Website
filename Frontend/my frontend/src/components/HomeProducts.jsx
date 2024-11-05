@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 const HomeProducts = () => {
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchCategoriesWithProducts = async () => {
       setLoading(true);
@@ -54,8 +53,11 @@ const HomeProducts = () => {
                       />
                     </figure>
                     <div className="card-body">
-                      <h3 className="card-title text-base font-medium leading-tight">
-                        {product.name}
+                      <h3 className="card-title text-base font-medium leading-tight text-ellipsis">
+                        {product.name.length > 33
+                          ? `${product.name.slice(0, 33)}`
+                          : product.name}
+                        ...
                       </h3>
                       <div className=" mx-auto flex gap-11 mb-4 mt-4">
                         <p className="text-green-600 font-bold">
