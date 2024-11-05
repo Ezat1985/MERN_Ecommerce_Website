@@ -28,7 +28,7 @@ const Footer = () => {
         </nav>
         <nav>
           <h6 className="footer-title">About us</h6>
-          <Link className="link link-hover">About Ezio Electronics</Link>
+          <Link className="link link-hover">About IoN Electronics</Link>
           <Link className="link link-hover">Service</Link>
         </nav>
         <nav>
