@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import ScrollToTop from "react-scroll-to-top";
 
 const Footer = () => {
   return (
     <div className="pt-10 bottom-0">
+      <ScrollToTop smooth top="20" />
       <footer className="footer bg-base-200 text-base-content p-10 justify-evenly">
         <nav>
           <h6 className="footer-title">Ordering</h6>
