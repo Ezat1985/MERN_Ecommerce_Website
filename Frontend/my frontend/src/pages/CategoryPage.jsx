@@ -145,12 +145,12 @@ const CategoryPage = () => {
         ) : error ? (
           <p className="text-red-500 text-center">{error}</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
             {filteredProducts.map((product) => (
               <Link
                 to={`/product/${product._id}`}
                 key={product._id}
-                className="card w-80 bg-base-100 shadow-lg hover:shadow-2xl transition-shadow duration-300"
+                className="card w-full bg-base-100 shadow-lg hover:shadow-2xl transition-shadow duration-300"
               >
                 <figure>
                   <img

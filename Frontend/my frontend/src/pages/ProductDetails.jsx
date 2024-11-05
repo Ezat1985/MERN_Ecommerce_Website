@@ -57,7 +57,7 @@ const ProductDetails = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="min-h-[200px] flex flex-col lg:flex-row gap-8">
+      <div className="min-h-[200px] flex flex-col lg:flex-row gap-8 items-center">
         <div className="flex flex-col lg:flex-row-reverse gap-4">
           <div
             className="h-[300px] w-[300px] lg:h-96 lg:w-96 bg-slate-200 overflow-hidden relative"

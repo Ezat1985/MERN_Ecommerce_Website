@@ -55,7 +55,10 @@ const SingleCategory = ({ categoryId }) => {
               </figure>
               <div className="card-body">
                 <h3 className="card-title text-base font-medium leading-tight">
-                  {product.name}
+                  {product.name.length > 33
+                    ? `${product.name.slice(0, 33)}`
+                    : product.name}
+                  ...
                 </h3>
                 <div className=" mx-auto flex gap-11 mb-4 mt-4">
                   <p className="text-green-600 font-bold">
