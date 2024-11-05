@@ -142,6 +142,7 @@ const ProductList = () => {
                         <img
                           src={product.images && product.images[0]}
                           alt={product.name}
+                          className="object-contain w-full"
                         />
                       </div>
                     </div>
@@ -182,7 +183,7 @@ const ProductList = () => {
                       className="textarea textarea-bordered w-full max-w-xs"
                     ></textarea>
                   ) : (
-                    product.description.slice(0, 300)
+                    product.description.slice(0, 150)
                   )}
                   ...
                 </td>
