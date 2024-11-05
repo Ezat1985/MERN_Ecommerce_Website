@@ -3,7 +3,7 @@ const FooterOrder = () => {
     <div className="p-20 mx-96 text-center">
       <h5 className="text-2xl pb-20">How to order</h5>
       <p>
-        At Ezio Electronics you can pay using bank transfer or using one of the
+        At IoN Electronics you can pay using bank transfer or using one of the
         following payment systems.
       </p>
       <br />
