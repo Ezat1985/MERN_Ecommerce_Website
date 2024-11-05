@@ -51,7 +51,7 @@ export const signIn = asyncHandler(async (req, res, next) => {
     expiresIn: "30m",
   });
   // res.json({ token });
-  res.cookie("token", token, { maxAge: 1800000 }); // 30mn
+  res.cookie("token", token, { maxAge: 1800000, sameSite: "None" }); // 30mn
   res.send({ status: "logged in" });
 });
 
@@ -62,6 +62,6 @@ export const getUser = asyncHandler(async (req, res, next) => {
 
 // Logout
 export const signOut = asyncHandler(async (req, res, next) => {
-  res.clearCookie("token");
+  res.clearCookie("token", { sameSite: "None" });
   res.send({ status: "logged out" });
 });
