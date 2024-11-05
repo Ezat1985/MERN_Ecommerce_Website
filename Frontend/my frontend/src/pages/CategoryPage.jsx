@@ -36,7 +36,7 @@ const CategoryPage = () => {
     const fetchCategoryData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/categories?name=${category}`
+          `${import.meta.env.VITE_API_URL}/categories?name=${category}`
         );
         const categoryData = response.data.find((cat) => cat.name === category);
 
