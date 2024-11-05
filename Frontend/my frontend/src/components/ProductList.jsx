@@ -30,9 +30,12 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/products", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/products`,
+          {
+            withCredentials: true,
+          }
+        );
         setProducts(response.data);
         setLoading(false);
       } catch (error) {
@@ -72,7 +75,7 @@ const ProductList = () => {
   const handleSaveClick = async () => {
     try {
       await axios.put(
-        `http://localhost:3001/products/${editProductId}`,
+        `${import.meta.env.VITE_API_URL}/products/${editProductId}`,
         editedProduct,
         {
           withCredentials: true,
@@ -91,9 +94,12 @@ const ProductList = () => {
 
   const handleDeleteClick = async (productId) => {
     try {
-      await axios.delete(`http://localhost:3001/products/${productId}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/products/${productId}`,
+        {
+          withCredentials: true,
+        }
+      );
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product._id !== productId)
       );

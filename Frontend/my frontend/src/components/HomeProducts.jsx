@@ -9,7 +9,9 @@ const HomeProducts = () => {
       setLoading(true);
 
       try {
-        const res = await fetch(`http://localhost:3001/categories?limit=5`);
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/categories?limit=5`
+        );
         if (!res.ok) throw new Error("Fetching categories failed");
 
         const data = await res.json();

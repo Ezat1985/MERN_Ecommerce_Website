@@ -12,7 +12,9 @@ const CategoryList = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.get("http://localhost:3001/categories");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/categories`
+      );
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories:", error);

@@ -11,7 +11,7 @@ const SingleCategory = ({ categoryId }) => {
 
       try {
         const res = await fetch(
-          `http://localhost:3001/categories/${categoryId}`
+          `${import.meta.env.VITE_API_URL}/categories/${categoryId}`
         );
         if (!res.ok) throw new Error("Fetching categories failed");
 
