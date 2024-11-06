@@ -8,9 +8,12 @@ const UserList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/auth/users", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/auth/users`,
+          {
+            withCredentials: true,
+          }
+        );
         setUsers(response.data);
         setLoading(false);
       } catch (error) {
@@ -24,7 +27,7 @@ const UserList = () => {
   const toggleAdminStatus = async (userId, newAdminStatus) => {
     try {
       const response = await axios.put(
-        "http://localhost:3001/auth/update-admin-status",
+        `${import.meta.env.VITE_API_URL}/auth/update-admin-status`,
         { userId, admin: newAdminStatus },
         { withCredentials: true }
       );

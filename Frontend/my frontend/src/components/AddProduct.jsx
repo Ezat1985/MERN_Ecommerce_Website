@@ -58,7 +58,7 @@ const AddProduct = () => {
     }
 
     try {
-      await axios.post("http://localhost:3001/products", formData, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/products`, formData, {
         withCredentials: true,
       });
 

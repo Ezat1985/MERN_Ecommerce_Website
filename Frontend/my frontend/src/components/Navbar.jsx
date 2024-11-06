@@ -40,9 +40,9 @@ const Navbar = ({ cart }) => {
     if (value) {
       try {
         const response = await fetch(
-          `http://localhost:3001/products/search?query=${encodeURIComponent(
-            value
-          )}`
+          `${
+            import.meta.env.VITE_API_URL
+          }/products/search?query=${encodeURIComponent(value)}`
         );
         const data = await response.json();
         setResults(data.results);
