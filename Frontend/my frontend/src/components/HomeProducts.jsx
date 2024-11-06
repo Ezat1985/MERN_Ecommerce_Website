@@ -39,7 +39,7 @@ const HomeProducts = () => {
                   <Link
                     to={`/product/${product._id}`}
                     key={product._id}
-                    className="card bg-base-100 w-72 shadow-xl border border-blue-50 m-4"
+                    className="card bg-base-100 w-72 shadow-xl border border-blue-50 m-4 transition-transform transform hover:scale-105"
                   >
                     <figure>
                       <img
