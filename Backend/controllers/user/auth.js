@@ -67,6 +67,12 @@ export const getUser = asyncHandler(async (req, res, next) => {
 
 // Logout
 export const signOut = asyncHandler(async (req, res, next) => {
-  res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "None" });
+  //res.clearCookie("token");
+  res.clearCookie("token", token, {
+    maxAge: 1800000,
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  }); // 30mn
   res.send({ status: "logged out" });
 });
