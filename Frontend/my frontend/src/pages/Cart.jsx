@@ -3,6 +3,7 @@ import { addToCart, removeFromCart } from "../utils/cart.js";
 import Footer from "../components/Footer.jsx";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useState } from "react";
+import { VscTrash } from "react-icons/vsc";
 
 const Cart = () => {
   const { cart, setCart } = useOutletContext();
@@ -89,7 +90,7 @@ const Cart = () => {
                           setCart(newArray);
                         }}
                       >
-                        <img src="/bin.png" alt="Remove" className="w-5 h-5" />
+                        <VscTrash alt="Remove" className="w-5 h-5" />
                       </button>
                     </td>
                   </tr>
